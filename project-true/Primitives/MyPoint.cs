@@ -1,12 +1,12 @@
-﻿namespace project_true
+﻿namespace project_true.Primitives
 {
-    public class Point
+    public class MyPoint
     {
         public int X { get; set; }
         public int Y { get; set; }
         public int Z { get; set; }
 
-        public Point()
+        public MyPoint()
         {
             
         }
