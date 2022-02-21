@@ -9,5 +9,11 @@ namespace project_true.Figures
     {
         MyPoint _center;
         MyVector _direction;
+
+        public Camera(MyPoint center, MyVector vector)
+        {
+            _center = center;
+            _direction = vector;
+        }
     }
 }

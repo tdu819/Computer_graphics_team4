@@ -1,5 +1,6 @@
-﻿using System;
-using System.Numerics;
+﻿using project_true.Figures;
+using project_true.Primitives;
+using System;
 
 namespace project_true
 {
@@ -10,15 +11,18 @@ namespace project_true
         
         static void Main(string[] args)
         {
-            Vector3 _vector3 = new Vector3();
+            int distance = 5;
 
-            Vector3.Dot(_vector3, _vector3);
+            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
+            MyVector cameraDir = new MyVector() { X = 1, Y = 0, Z = 0 };
 
-            var a =Math.Sqrt(25.0);
+            Camera camera = new Camera(cameraCenter, cameraDir);
 
-            Console.WriteLine(a);
-        
-        
+            MyPoint planeCenter = new MyPoint() { X = distance, Y = 0, Z = 0 };
+
+            MyPlane plane = new MyPlane(planeCenter, cameraDir);
+
+            Console.WriteLine();
         }
     }
 }
