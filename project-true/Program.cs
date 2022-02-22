@@ -1,6 +1,6 @@
 ﻿using project_true.Figures;
-using project_true.Primitives;
 using System;
+using project_true.Primitives;
 
 namespace project_true
 {

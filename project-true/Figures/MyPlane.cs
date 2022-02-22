@@ -1,7 +1,7 @@
-﻿using project_true.Primitives;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using project_true.Primitives;
 
 namespace project_true.Figures
 {
