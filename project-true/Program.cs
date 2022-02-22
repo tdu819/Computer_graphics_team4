@@ -13,7 +13,7 @@ namespace project_true
         {
             int distance = 5;
             int n = 20, m = 20;
-            var r = 2;
+            double r = 9;
 
             MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
             MyVector cameraDir = new MyVector() { X = 1, Y = 0, Z = 0 };
@@ -24,9 +24,9 @@ namespace project_true
 
             MyPlane plane = new MyPlane(planeCenter, cameraDir);
 
-            MyPoint TopLeft = plane.GetTopLeftPoint(0, 10, -10);
+            MyPoint TopLeft = plane.GetTopLeftPoint(0, 9.5, -9.5);
 
-            MyPoint sphereCenter = new MyPoint() { X = 10, Y = 0, Z = 0 };
+            MyPoint sphereCenter = new MyPoint() { X = 10, Y = -1, Z = -2 };
 
             Sphere sphere = new Sphere() { Center = sphereCenter, Radius = r };
 
@@ -38,17 +38,31 @@ namespace project_true
 
                     var o = cameraCenter;
                     var c = sphereCenter;
-                    var k = o - c;
+                    var k1 = o - c;
+                    MyVector k = new MyVector(k1.X, k1.Y, k1.Z);
+
                     var d = new MyVector(cameraCenter, point);
 
                     var d2 = MyVector.Dot(d, d);
                     var r2 = r * r;
+                    var k2 = MyVector.Dot(k, k);
 
+                    var a = d2;
+                    var b = 2 * MyVector.Dot(d, k);
+                    var cc = k2 - r2;
 
-                    point.Value = "#";
+                    var D = b * b - 4 * a * cc;
+                    if (D < 0)
+                    {
+                        point.Value = " ";
+                    }
+                    else
+                    {
+                        point.Value = "#";
+                    }
                     Console.Write(point.Value);
                 }
-                Console.WriteLine();
+                Console.WriteLine("|");
             }
 
             Console.WriteLine();
