@@ -16,5 +16,11 @@ namespace project_true.Figures
             _center = center;
             _normal = vector;
         }
+
+        // TODO
+        public MyPoint GetTopLeftPoint(double distanceX, double distanceY, double distanceZ)
+        {
+            return new MyPoint() { X = _center.X + distanceX, Y = _center.Y + distanceY, Z = _center.Z + distanceZ };
+        }
     }
 }

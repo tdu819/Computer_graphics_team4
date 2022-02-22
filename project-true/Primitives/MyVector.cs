@@ -5,30 +5,48 @@ namespace project_true.Primitives
 {
     public class MyVector
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Z { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Z { get; set; }
 
-        public static float Dot(MyVector vector1, MyVector vector2)
+        public MyVector()
+        {
+        }
+
+        public MyVector(MyPoint first, MyPoint second)
+        {
+            X = second.X - first.X;
+            Y = second.Y - first.Y;
+            Z = second.Z - first.Z;
+        }
+
+        public MyVector(double v1, double v2, double v3)
+        {
+            this.X = v1;
+            this.Y = v2;
+            this.Z = v3;
+        }
+
+        public static double Dot(MyVector vector1, MyVector vector2)
         {
             return vector1.X * vector2.X +
                    vector1.Y * vector2.Y +
                    vector1.Z * vector2.Z;
         }
 
-        public static Vector3 Abs(Vector3 value)
+        public static MyVector Abs(MyVector value)
         {
-            return new Vector3(MathF.Abs(value.X), MathF.Abs(value.Y), MathF.Abs(value.Z));
+            return new MyVector(Math.Abs(value.X), Math.Abs(value.Y), Math.Abs(value.Z));
         }
 
-        public static Vector3 operator +(MyVector left, MyVector right)
+        public static MyVector operator +(MyVector left, MyVector right)
         {
-            return new Vector3(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
+            return new MyVector(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
         }
 
-        public static Vector3 operator -(MyVector left, MyVector right)
+        public static MyVector operator -(MyVector left, MyVector right)
         {
-            return new Vector3(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
+            return new MyVector(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
         }
 
         public bool Equals(MyVector other)
