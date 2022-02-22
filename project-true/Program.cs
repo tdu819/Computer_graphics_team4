@@ -26,7 +26,7 @@ namespace project_true
 
             MyPoint TopLeft = plane.GetTopLeftPoint(0, 9.5, -9.5);
 
-            MyPoint sphereCenter = new MyPoint() { X = 10, Y = -1, Z = -2 };
+            MyPoint sphereCenter = new MyPoint() { X = 10, Y = 1, Z = 2 };
 
             Sphere sphere = new Sphere() { Center = sphereCenter, Radius = r };
 
@@ -34,7 +34,7 @@ namespace project_true
             {
                 for (int j = 0; j < m; j++)
                 {
-                    MyPoint point = new MyPoint() { X = TopLeft.X + 0, Y = TopLeft.Y - j, Z = TopLeft.Z + i };
+                    MyPoint point = new MyPoint() { X = TopLeft.X + 0, Y = TopLeft.Y - i, Z = TopLeft.Z + j };
 
                     var o = cameraCenter;
                     var c = sphereCenter;
