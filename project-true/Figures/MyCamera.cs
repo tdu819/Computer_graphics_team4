@@ -5,12 +5,12 @@ using project_true.Primitives;
 
 namespace project_true.Figures
 {
-    public class Camera
+    public class MyCamera
     {
         MyPoint _center;
         MyVector _direction;
 
-        public Camera(MyPoint center, MyVector vector)
+        public MyCamera(MyPoint center, MyVector vector)
         {
             _center = center;
             _direction = vector;

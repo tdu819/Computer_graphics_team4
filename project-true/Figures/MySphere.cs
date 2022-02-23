@@ -2,7 +2,7 @@
 
 namespace project_true.Figures
 {
-    public class Sphere
+    public class MySphere
     {
         public MyPoint Center { get; set; }
         

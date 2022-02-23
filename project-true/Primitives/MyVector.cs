@@ -60,5 +60,15 @@ namespace project_true.Primitives
         {
             return Math.Sqrt(Math.Pow(vector.X, 2) + Math.Pow(vector.Y, 2) + Math.Pow(vector.Z, 2));
         }
+
+        public MyVector Normalization()
+        {
+            double someLength = MyVector.Length(this);
+
+            double X = this.X / someLength;
+            double Y = this.Y / someLength;
+            double Z = this.Z / someLength;
+            return new MyVector(X, Y, Z);
+        }
     }
 }

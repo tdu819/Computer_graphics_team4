@@ -2,18 +2,18 @@
 
 namespace project_true.Figures
 {
-    public class Triangle
+    public class MyTriangle
     {
         public Point A { get; set; }
         public Point B { get; set; }
         public Point C { get; set; }
 
-        public Triangle()
+        public MyTriangle()
         {
             
         }
         
-        public Triangle(Point a, Point b, Point c)
+        public MyTriangle(Point a, Point b, Point c)
         {
             A = a;
             B = b;

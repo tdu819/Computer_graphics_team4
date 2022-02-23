@@ -15,7 +15,7 @@ namespace project_true
             MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
             MyVector cameraDir = new MyVector() { X = 1, Y = 0, Z = 0 };
 
-            Camera camera = new Camera(cameraCenter, cameraDir);
+            MyCamera myCamera = new MyCamera(cameraCenter, cameraDir);
 
             MyPoint planeCenter = new MyPoint() { X = distance, Y = 0, Z = 0 };
 
@@ -25,7 +25,7 @@ namespace project_true
 
             MyPoint sphereCenter = new MyPoint() { X = 10, Y = 1, Z = 2 };
 
-            Sphere sphere = new Sphere() { Center = sphereCenter, Radius = r };
+            MySphere mySphere = new MySphere() { Center = sphereCenter, Radius = r };
 
             for (int i = 0; i < n; i++)
             {
