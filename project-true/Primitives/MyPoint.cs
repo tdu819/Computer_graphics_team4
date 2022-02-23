@@ -6,6 +6,7 @@
         public double Y { get; set; }
         public double Z { get; set; }
         public string Value { get; set; }
+        
         public MyPoint()
         {
             

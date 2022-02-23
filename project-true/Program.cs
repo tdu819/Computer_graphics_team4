@@ -4,11 +4,8 @@ using project_true.Primitives;
 
 namespace project_true
 {
-    class Program
+    public static class Program
     {
-        
-        
-        
         static void Main(string[] args)
         {
             int distance = 5;
@@ -52,16 +49,38 @@ namespace project_true
                     var cc = k2 - r2;
 
                     var D = b * b - 4 * a * cc;
-                    if (D < 0)
+                    if (D < 0 || (a == 0 && b == 0 && cc != 0)) // if cc == 0 will be strange situation.
                     {
                         point.Value = " ";
                     }
                     else
                     {
-                        point.Value = "#";
+                        double t1 = 0;
+                        double t2 = 0;
+                        if (a == 0 && b != 0)
+                        {
+                            t1 = -(cc / b);
+                            t1 = t2;
+                        }
+                        else if (a != 0)
+                        {
+                            t1 = (-b + Math.Sqrt(D)) / (2 * a);
+                            t2 = (-b - Math.Sqrt(D)) / (2 * a);
+                        }
+
+                        if (t1 < 0 && t2 < 0)
+                        {
+                            point.Value = " ";
+                        }
+                        else
+                        {
+                            point.Value = "#";
+                        }
                     }
+
                     Console.Write(point.Value);
                 }
+
                 Console.WriteLine("|");
             }
 
