@@ -8,7 +8,57 @@ namespace project_true.Tools
 {
     public static class RayTracer
     {
-        
+        public static bool RayIntersectsSphere(MyPoint rayOrigin,
+                                               MySphere sphere,
+                                               MyPoint point)
+        {
+            var o = rayOrigin;
+            var c = sphere.Center;
+            var r = sphere.Radius;
+            var k1 = o - c;
+            MyVector k = new MyVector(k1.X, k1.Y, k1.Z);
+
+            var d = new MyVector(rayOrigin, point);
+
+            var d2 = MyVector.Dot(d, d);
+            var r2 = r * r;
+            var k2 = MyVector.Dot(k, k);
+
+            var a = d2;
+            var b = 2 * MyVector.Dot(d, k);
+            var cc = k2 - r2;
+
+            var D = b * b - 4 * a * cc;
+            if (D < 0 || (a == 0 && b == 0 && cc != 0)) // if cc == 0 will be strange situation.
+            {
+                return false;
+            }
+            else
+            {
+                double t1 = 0;
+                double t2 = 0;
+                if (a == 0 && b != 0)
+                {
+                    t1 = -(cc / b);
+                    t1 = t2;
+                }
+                else if (a != 0)
+                {
+                    t1 = (-b + Math.Sqrt(D)) / (2 * a);
+                    t2 = (-b - Math.Sqrt(D)) / (2 * a);
+                }
+
+                if (t1 < 0 && t2 < 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
         public static bool RayIntersectsTriangle(MyPoint rayOrigin, 
                                                  MyVector rayVector, 
                                                  MyTriangle inTriangle, 

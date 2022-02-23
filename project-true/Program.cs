@@ -1,6 +1,7 @@
 ﻿using project_true.Figures;
 using System;
 using project_true.Primitives;
+using project_true.Tools;
 
 namespace project_true
 {
@@ -33,52 +34,16 @@ namespace project_true
                 {
                     MyPoint point = new MyPoint() { X = TopLeft.X + 0, Y = TopLeft.Y - i, Z = TopLeft.Z + j };
 
-                    var o = cameraCenter;
-                    var c = sphereCenter;
-                    var k1 = o - c;
-                    MyVector k = new MyVector(k1.X, k1.Y, k1.Z);
-
-                    var d = new MyVector(cameraCenter, point);
-
-                    var d2 = MyVector.Dot(d, d);
-                    var r2 = r * r;
-                    var k2 = MyVector.Dot(k, k);
-
-                    var a = d2;
-                    var b = 2 * MyVector.Dot(d, k);
-                    var cc = k2 - r2;
-
-                    var D = b * b - 4 * a * cc;
-                    if (D < 0 || (a == 0 && b == 0 && cc != 0)) // if cc == 0 will be strange situation.
+                    if (RayTracer.RayIntersectsSphere(cameraCenter, mySphere, point))
                     {
-                        point.Value = " ";
+                        Console.Write("#");
                     }
                     else
                     {
-                        double t1 = 0;
-                        double t2 = 0;
-                        if (a == 0 && b != 0)
-                        {
-                            t1 = -(cc / b);
-                            t1 = t2;
-                        }
-                        else if (a != 0)
-                        {
-                            t1 = (-b + Math.Sqrt(D)) / (2 * a);
-                            t2 = (-b - Math.Sqrt(D)) / (2 * a);
-                        }
-
-                        if (t1 < 0 && t2 < 0)
-                        {
-                            point.Value = " ";
-                        }
-                        else
-                        {
-                            point.Value = "#";
-                        }
+                        Console.Write(" ");
                     }
 
-                    Console.Write(point.Value);
+
                 }
 
                 Console.WriteLine("|");
