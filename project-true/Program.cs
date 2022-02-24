@@ -9,8 +9,14 @@ namespace project_true
     {
         static void Main(string[] args)
         {
+            // Distance from Camera to Plain
             int distance = 5;
+            
+            
+            // Our Canvas size
             int n = 20, m = 20;
+            
+            // Sphere radius
             double r = 9;
 
             MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
