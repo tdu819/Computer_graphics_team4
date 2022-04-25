@@ -19,6 +19,7 @@ namespace project_true.Primitives
             Y = second.Y - first.Y;
             Z = second.Z - first.Z;
         }
+
         public MyVector(MyPoint point)
         {
             X = point.X;
@@ -39,7 +40,7 @@ namespace project_true.Primitives
                    vector1.Y * vector2.Y +
                    vector1.Z * vector2.Z;
         }
-        
+
         public static MyVector Cross(MyVector v1, MyVector v2)
         {
             double X = v1.Y * v2.Z - v1.Z * v2.Y;
@@ -58,10 +59,12 @@ namespace project_true.Primitives
         {
             return new MyVector(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
         }
+
         public static MyPoint operator +(MyPoint point, MyVector vector)
         {
             return new MyPoint(point.X + vector.X, point.Y + vector.Y, point.Z + vector.Z);
         }
+
         public static MyPoint operator +(MyVector vector, MyPoint point)
         {
             return new MyPoint(vector.X + point.X, vector.Y + point.Y, vector.Z + point.Z);
@@ -71,10 +74,12 @@ namespace project_true.Primitives
         {
             return new MyVector(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
         }
+
         public static MyVector operator *(MyVector vector, double number)
         {
             return new MyVector(vector.X * number, vector.Y * number, vector.Z * number);
         }
+
         public static MyVector operator *(double number, MyVector vector)
         {
             return new MyVector(vector.X * number, vector.Y * number, vector.Z * number);
@@ -100,6 +105,18 @@ namespace project_true.Primitives
             double Y = this.Y / someLength;
             double Z = this.Z / someLength;
             return new MyVector(X, Y, Z);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return this.X == ((MyVector)obj).X &&
+                   this.Y == ((MyVector)obj).Y &&
+                   this.Z == ((MyVector)obj).Z;
         }
     }
 }
