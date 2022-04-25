@@ -18,7 +18,12 @@
             this.Y = v2;
             this.Z = v3;
         }
-
+        public MyPoint(MyVector vector)
+        {
+            this.X = vector.X;
+            this.Y = vector.Y;
+            this.Z = vector.Z;
+        }
         public static MyPoint operator -(MyPoint left, MyPoint right)
         {
             return new MyPoint(left.X - right.X, left.Y - right.Y, left.Z - right.Z);

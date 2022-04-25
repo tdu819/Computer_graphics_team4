@@ -10,7 +10,8 @@ namespace project_true.Tools
     {
         public static bool RayIntersectsSphere(MyPoint rayOrigin,
                                                MySphere sphere,
-                                               MyPoint point)
+                                               MyPoint point,
+                                               ref MyPoint intersectPoint)
         {
             var o = rayOrigin;
             var c = sphere.Center;
@@ -52,8 +53,19 @@ namespace project_true.Tools
                 {
                     return false;
                 }
+                else if (t1 < 0)
+                {
+                    intersectPoint = new MyPoint(d * t2);
+                    return true;
+                }
+                else if (t2 < 0)
+                {
+                    intersectPoint = new MyPoint(d * t1);
+                    return true;
+                }
                 else
                 {
+                    intersectPoint = new MyPoint(d * Math.Min(t1, t2));
                     return true;
                 }
             }
