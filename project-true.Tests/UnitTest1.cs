@@ -227,7 +227,7 @@ namespace project_true.Tests
             MyPoint sphereCenter = new MyPoint(-20, 0, 0);
             double radius = 10;
             MySphere sphere = new MySphere() { Center = sphereCenter, Radius = radius };
-            MyPoint point = new MyPoint(15, 0, Math.Sqrt(76));
+            MyPoint point = new MyPoint(10, 0, 0);
             MyPoint intersect = new MyPoint();
             // act
 
@@ -236,6 +236,27 @@ namespace project_true.Tests
             // assert
 
             Assert.IsFalse(actual);
+        }
+
+        [Test]
+        public void RayIntersectsSphere_CameraInsideSphere_NotIntersect()
+        {
+            // arrange
+
+            MyPoint origin = new MyPoint(0, 0, 0);
+            MyPoint sphereCenter = new MyPoint(0, 0, 0);
+            double radius = 10;
+            MySphere sphere = new MySphere() { Center = sphereCenter, Radius = radius };
+            MyPoint point = new MyPoint(10, 0, 0);
+            MyPoint expected = new MyPoint(10, 0, 0);
+            MyPoint actual = new MyPoint();
+            // act
+
+            RayTracer.RayIntersectsSphere(origin, sphere, point, ref actual);
+
+            // assert
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }
