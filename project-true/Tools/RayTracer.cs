@@ -29,6 +29,75 @@ namespace project_true.Tools
             var b = 2 * MyVector.Dot(d, k);
             var cc = k2 - r2;
 
+            double t1, t2;
+
+            if (a == 0)
+            {
+                if (b == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    t1 = -cc / b;
+                    t2 = t1;
+                }
+            }
+            else
+            {
+                var D = b * b - 4 * a * cc;
+                if (D < 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    t1 = (-b + Math.Sqrt(D)) / (2 * a);
+                    t2 = (-b - Math.Sqrt(D)) / (2 * a);
+                }
+            }
+
+            if (t1 < 0 && t2 < 0)
+            {
+                return false;
+            }
+            else if (t1 < 0)
+            {
+                intersectPoint = new MyPoint(d * t2);
+                return true;
+            }
+            else if (t2 < 0)
+            {
+                intersectPoint = new MyPoint(d * t1);
+                return true;
+            }
+            else
+            {
+                intersectPoint = new MyPoint(d * Math.Min(t1, t2));
+                return true;
+            }
+        }
+        /*public static bool RayIntersectsSphere(MyPoint rayOrigin,
+            MySphere sphere,
+            MyPoint point,
+            ref MyPoint intersectPoint)
+        {
+            var o = rayOrigin;
+            var c = sphere.Center;
+            var r = sphere.Radius;
+            var k1 = o - c;
+            MyVector k = new MyVector(k1.X, k1.Y, k1.Z);
+
+            var d = new MyVector(rayOrigin, point);
+
+            var d2 = MyVector.Dot(d, d);
+            var r2 = r * r;
+            var k2 = MyVector.Dot(k, k);
+
+            var a = d2;
+            var b = 2 * MyVector.Dot(d, k);
+            var cc = k2 - r2;
+
             double t1 = 0;
             double t2 = 0;
             
@@ -74,7 +143,7 @@ namespace project_true.Tools
                     }
                 }
             }
-        }
+        }*/
 
         public static bool RayIntersectsTriangle(MyPoint rayOrigin,
             MyVector rayVector,
