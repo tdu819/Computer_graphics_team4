@@ -28,5 +28,15 @@
         {
             return new MyPoint(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
         }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        public override bool Equals(object? obj)
+        {
+            return this.X == ((MyPoint)obj).X &&
+                   this.Y == ((MyPoint)obj).Y &&
+                   this.Z == ((MyPoint)obj).Z;
+        }
     }
 }

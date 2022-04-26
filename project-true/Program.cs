@@ -10,11 +10,11 @@ namespace project_true
         static void Main(string[] args)
         {
             SphereTracing();
-            
+
             // TriangleTracing();
-            
-            
-            // Console.ReadLine();
+
+
+            Console.ReadLine();
         }
 
         static private void TriangleTracing()
