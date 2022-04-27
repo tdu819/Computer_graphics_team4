@@ -144,7 +144,7 @@ namespace project_true.Tests
             MyPoint intersect = new MyPoint();
             // act
 
-            bool actual = RayTracer.RayIntersectsSphere(origin, sphere, point, ref intersect);
+            bool actual = sphere.RayIntersect(origin, point, ref intersect);
 
             // assert
 
@@ -164,7 +164,7 @@ namespace project_true.Tests
             MyPoint intersect = new MyPoint();
             // act
 
-            bool actual = RayTracer.RayIntersectsSphere(origin, sphere, point, ref intersect);
+            bool actual = sphere.RayIntersect(origin, point, ref intersect);
 
             // assert
 
@@ -188,7 +188,7 @@ namespace project_true.Tests
             MyPoint actual = new MyPoint();
             // act
 
-            RayTracer.RayIntersectsSphere(origin, sphere, intersection, ref actual);
+            sphere.RayIntersect(origin, intersection, ref actual);
 
             // assert
 
@@ -211,7 +211,7 @@ namespace project_true.Tests
             MyPoint actual = new MyPoint();
             // act
 
-            RayTracer.RayIntersectsSphere(origin, sphere, intersection, ref actual);
+            sphere.RayIntersect(origin, intersection, ref actual);
 
             // assert
 
@@ -231,7 +231,7 @@ namespace project_true.Tests
             MyPoint intersect = new MyPoint();
             // act
 
-            bool actual = RayTracer.RayIntersectsSphere(origin, sphere, point, ref intersect);
+            bool actual = sphere.RayIntersect(origin, point, ref intersect);
 
             // assert
 
@@ -252,7 +252,7 @@ namespace project_true.Tests
             MyPoint actual = new MyPoint();
             // act
 
-            RayTracer.RayIntersectsSphere(origin, sphere, point, ref actual);
+            sphere.RayIntersect(origin, point, ref actual);
 
             // assert
 
@@ -271,7 +271,7 @@ namespace project_true.Tests
             MyPoint b = new MyPoint(15, 1, -5);
             MyPoint c = new MyPoint(15, 1, 5);
             MyTriangle triangle = new MyTriangle(a, b, c);
-            MyVector rayVector = new MyVector(-20, 0, 0);
+            MyPoint rayPointer = new MyPoint(20, 0, 0);
             
             
             
@@ -279,7 +279,7 @@ namespace project_true.Tests
             MyPoint outIntersectionPoint = new MyPoint();
             // act
 
-            bool actual = RayTracer.RayIntersectsTriangle(camera, rayVector , triangle, ref outIntersectionPoint);
+            bool actual = triangle.RayIntersect(camera, rayPointer, ref outIntersectionPoint);
 
             // assert
 
@@ -296,15 +296,15 @@ namespace project_true.Tests
             MyPoint b = new MyPoint(15, 1, -5);
             MyPoint c = new MyPoint(15, 1, 5);
             MyTriangle triangle = new MyTriangle(a, b, c);
-            MyVector rayVector = new MyVector(-20, 0, 0);
-            
-            
-            
-            
+            MyPoint rayPointer = new MyPoint(20, 0, 0);
+
+
+
+
             MyPoint outIntersectionPoint = new MyPoint();
             // act
 
-            bool actual = RayTracer.RayIntersectsTriangle(camera, rayVector , triangle, ref outIntersectionPoint);
+            bool actual = triangle.RayIntersect(camera, rayPointer, ref outIntersectionPoint);
 
             // assert
 
@@ -321,12 +321,12 @@ namespace project_true.Tests
             MyPoint b = new MyPoint(15, 1, -5);
             MyPoint c = new MyPoint(15, 1, 5);
             MyTriangle triangle = new MyTriangle(a, b, c);
-            MyVector rayVector = new MyVector(-20, 0, 0);
+            MyPoint rayPointer = new MyPoint(20, 0, 0);
 
             MyPoint outIntersectionPoint = new MyPoint();
             // act
 
-            bool actual = RayTracer.RayIntersectsTriangle(camera, rayVector , triangle, ref outIntersectionPoint);
+            bool actual = triangle.RayIntersect(camera, rayPointer, ref outIntersectionPoint);
 
             // assert
 
@@ -343,12 +343,12 @@ namespace project_true.Tests
             MyPoint b = new MyPoint(15, 2, -5);
             MyPoint c = new MyPoint(15, 3, 5);
             MyTriangle triangle = new MyTriangle(a, b, c);
-            MyVector rayVector = new MyVector(-20, 0, 0);
+            MyPoint rayPointer = new MyPoint(20, 0, 0);
 
             MyPoint outIntersectionPoint = new MyPoint();
             // act
 
-            bool actual = RayTracer.RayIntersectsTriangle(camera, rayVector , triangle, ref outIntersectionPoint);
+            bool actual = triangle.RayIntersect(camera, rayPointer, ref outIntersectionPoint);
 
             // assert
 
@@ -365,12 +365,12 @@ namespace project_true.Tests
             MyPoint b = new MyPoint(-15, 1, -5);
             MyPoint c = new MyPoint(-15, 2, 5);
             MyTriangle triangle = new MyTriangle(a, b, c);
-            MyVector rayVector = new MyVector(-20, 0, 0);
+            MyPoint rayPointer = new MyPoint(20, 0, 0);
 
             MyPoint outIntersectionPoint = new MyPoint();
             // act
 
-            bool actual = RayTracer.RayIntersectsTriangle(camera, rayVector , triangle, ref outIntersectionPoint);
+            bool actual = triangle.RayIntersect(camera, rayPointer, ref outIntersectionPoint);
 
             // assert
 

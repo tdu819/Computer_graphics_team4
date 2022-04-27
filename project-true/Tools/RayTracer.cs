@@ -1,4 +1,4 @@
-﻿using project_true.Figures;
+﻿/*using project_true.Figures;
 using project_true.Primitives;
 using System;
 using System.Collections.Generic;
@@ -130,4 +130,4 @@ namespace project_true.Tools
             }
         }
     }
-}
+}*/
