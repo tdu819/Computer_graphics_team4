@@ -21,7 +21,7 @@ namespace project_true.Tools
             MyVector cameraDir = new MyVector() { X = 1, Y = 0, Z = 0 };
 
             // Camera. Coordinates (0; 0; 0).
-            MyCamera myCamera = new MyCamera(cameraCenter, cameraDir);
+            MyCamera myCamera = new MyCamera(cameraCenter, cameraDir, distance);
 
             MyPoint planeCenter = new MyPoint() { X = distance, Y = cameraCenter.Y, Z = cameraCenter.Z };
 
@@ -69,13 +69,13 @@ namespace project_true.Tools
             int n = 20, m = 20;
 
             // Sphere radius
-            double r = 9;
+            double r = 3;
 
             MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
             MyVector cameraDir = new MyVector() { X = 1, Y = 0, Z = 0 };
 
             // Camera. Coordinates (0; 0; 0).
-            MyCamera myCamera = new MyCamera(cameraCenter, cameraDir);
+            MyCamera myCamera = new MyCamera(cameraCenter, cameraDir, distance);
 
             MyPoint planeCenter = new MyPoint() { X = distance, Y = cameraCenter.Y, Z = cameraCenter.Z };
 
@@ -84,7 +84,7 @@ namespace project_true.Tools
 
             MyPoint topLeft = plane.GetTopLeftPoint(0, 9.5, -9.5);
 
-            MyPoint sphereCenter = new MyPoint() { X = 10, Y = 0, Z = 0 };
+            MyPoint sphereCenter = new MyPoint() { X = -1, Y = 0, Z = 0 };
 
             // Our Sphere
             MySphere mySphere = new MySphere() { Center = sphereCenter, Radius = r };

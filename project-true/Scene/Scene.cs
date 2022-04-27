@@ -9,5 +9,6 @@ namespace project_true.Scene
     {
         MyCamera camera;
 
+
     }
 }
