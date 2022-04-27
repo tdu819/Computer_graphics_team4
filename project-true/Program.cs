@@ -9,10 +9,10 @@ namespace project_true
     {
         static void Main(string[] args)
         {
-            TracingHandler.SphereTracing();
+            //TracingHandler.SphereTracing();
 
             //TracingHandler.TriangleTracing();
-
+            new TracingHandler().NearestSphereTracing();
 
             Console.ReadLine();
         }

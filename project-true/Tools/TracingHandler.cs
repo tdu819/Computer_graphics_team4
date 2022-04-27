@@ -1,5 +1,6 @@
 ﻿using project_true.Figures;
 using project_true.Primitives;
+using project_true.MyScene;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -140,6 +141,96 @@ namespace project_true.Tools
             {
                 Console.Write("#");
             }
+        }
+        public void NearestSphereTracing()
+        {
+            // Camera
+            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
+            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
+            int distance = 5;
+
+            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
+
+            // Scene
+            Scene scene = new Scene(camera);
+
+            //Sphere1
+            double r1 = 9;
+            MyPoint sphereCenter1 = new MyPoint() { X = 10, Y = 0, Z = -5 };
+
+            Figure mySphere1 = new MySphere() { Center = sphereCenter1, Radius = r1 };
+
+            //Sphere2
+            double r2 = 8;
+            MyPoint sphereCenter2 = new MyPoint() { X = 10, Y = 0, Z = 5 };
+
+            Figure mySphere2 = new MySphere() { Center = sphereCenter2, Radius = r2 };
+
+            // Add Sphere
+            scene.AddFigure(mySphere1);
+            scene.AddFigure(mySphere2);
+
+            // Our Canvas size
+            int n = 20, m = 20;
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+
+            // Light Vector
+            MyVector L = new MyVector(0, 1, 0);
+            Figure nearest = FindNearestFigure(scene, n, m, topLeft);
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
+
+                    // ref IntersectionPoint
+                    MyPoint IntersectionPoint = new MyPoint();
+
+                    // Point and Camera most likely not working correctly
+                    if (nearest.RayIntersect(scene.Camera.Center, rayPointer, ref IntersectionPoint))
+                    {
+                        Console.Write("#");
+                    }
+                    else
+                    {
+                        Console.Write(" ");
+                    }
+                }
+
+                Console.WriteLine("|");
+            }
+
+            Console.WriteLine();
+        }
+
+        public Figure FindNearestFigure(Scene scene, int height, int width, MyPoint topLeft)
+        {
+            double minDistance = Double.MaxValue;
+            Figure nearestFigure = null;
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
+
+                    foreach (Figure f in scene.Figures)
+                    {
+                        MyPoint IntersectionPoint = new MyPoint();
+                        if (f.RayIntersect(scene.Camera.Center, rayPointer, ref IntersectionPoint))
+                        {
+                            double dist = MyVector.Length(new MyVector(scene.Camera.Center, IntersectionPoint));
+                            if (dist < minDistance)
+                            {
+                                minDistance = dist;
+                                nearestFigure = f;
+                            }
+                        }
+                    }
+                }
+            }
+            return nearestFigure;
         }
     }
 }
