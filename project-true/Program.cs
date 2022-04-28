@@ -12,7 +12,7 @@ namespace project_true
             //TracingHandler.SphereTracing();
 
             //TracingHandler.TriangleTracing();
-            new TracingHandler().NearestSphereTracing();
+            new TracingHandler().FigureTracing();
 
             Console.ReadLine();
         }

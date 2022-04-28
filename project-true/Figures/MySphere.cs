@@ -8,6 +8,13 @@ namespace project_true.Figures
         public MyPoint Center { get; set; }
         
         public double Radius { get; set; }
+
+        public override MyVector GetNormal(MyPoint intersectionPoint)
+        {
+            MyVector normal = new MyVector(intersectionPoint, Center).Normalization();
+            return normal;
+        }
+
         public override bool RayIntersect(MyPoint rayOrigin, 
                                           MyPoint rayPointer, 
                                           ref MyPoint IntersectionPoint)

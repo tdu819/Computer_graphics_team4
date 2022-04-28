@@ -9,117 +9,16 @@ namespace project_true.Tools
 {
     class TracingHandler
     {
-        public static void TriangleTracing()
+        // TODO Intersection point is not necessary?
+        /// <summary>
+        /// Part 4.5 Implementation
+        /// </summary>
+        /// <param name="figure"></param>
+        /// <param name="intersection"></param>
+        /// <param name="L"></param>
+        public static void Lighting(Figure figure, MyPoint intersection, MyVector L)
         {
-            // Distance from Camera to Plain
-            int distance = 5;
-
-
-            // Our Canvas size
-            int n = 20, m = 20;
-
-            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
-            MyVector cameraDir = new MyVector() { X = 1, Y = 0, Z = 0 };
-
-            // Camera. Coordinates (0; 0; 0).
-            MyCamera myCamera = new MyCamera(cameraCenter, cameraDir, distance);
-
-            MyPoint planeCenter = new MyPoint() { X = distance, Y = cameraCenter.Y, Z = cameraCenter.Z };
-
-            // Plain. Плоскость.
-            MyPlane plane = new MyPlane(planeCenter, cameraDir);
-
-            MyPoint topLeft = plane.GetTopLeftPoint(0, 9.5, -9.5);
-
-            // Triangle
-            MyTriangle myTriangle = new MyTriangle(new MyPoint(10, 0, -10), new MyPoint(10, 0, 10), new MyPoint(10, 10, 0));
-
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < m; j++)
-                {
-                    MyPoint point = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
-
-                    // ref IntersectionPoint
-                    MyPoint IntersectionPoint = new MyPoint();
-
-                    // Point and Camera most likely not working correctly
-                    if (myTriangle.RayIntersect(cameraCenter, point, ref IntersectionPoint))
-                    {
-                        Console.Write("#");
-                    }
-                    else
-                    {
-                        Console.Write(" ");
-                    }
-                }
-
-                Console.WriteLine("|");
-            }
-
-            Console.WriteLine();
-        }
-
-        public static void SphereTracing()
-        {
-            // Distance from Camera to Plain
-            int distance = 5;
-
-
-            // Our Canvas size
-            int n = 20, m = 20;
-
-            // Sphere radius
-            double r = 3;
-
-            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
-            MyVector cameraDir = new MyVector() { X = 1, Y = 0, Z = 0 };
-
-            // Camera. Coordinates (0; 0; 0).
-            MyCamera myCamera = new MyCamera(cameraCenter, cameraDir, distance);
-
-            MyPoint planeCenter = new MyPoint() { X = distance, Y = cameraCenter.Y, Z = cameraCenter.Z };
-
-            // Plain. Плоскость.
-            MyPlane plane = new MyPlane(planeCenter, cameraDir);
-
-            MyPoint topLeft = plane.GetTopLeftPoint(0, 9.5, -9.5);
-
-            MyPoint sphereCenter = new MyPoint() { X = -1, Y = 0, Z = 0 };
-
-            // Our Sphere
-            MySphere mySphere = new MySphere() { Center = sphereCenter, Radius = r };
-
-            // Light Vector
-            MyVector L = new MyVector(0, 1, 0);
-
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < m; j++)
-                {
-                    MyPoint point = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
-                    MyPoint IntersectionPoint = new MyPoint();
-
-                    if (mySphere.RayIntersect(cameraCenter, point, ref IntersectionPoint))
-                    {
-                        Lighting(IntersectionPoint, sphereCenter, L);
-                        //Console.Write("#");
-                    }
-                    else
-                    {
-                        Console.Write(" ");
-                    }
-                }
-
-                Console.WriteLine("|");
-            }
-
-            Console.WriteLine();
-        }
-
-        public static void Lighting(MyPoint intersection, MyPoint center, MyVector L)
-        {
-            MyVector normal = new MyVector(intersection, center).Normalization();
+            MyVector normal = figure.GetNormal(intersection);
             double dot = MyVector.Dot(normal, L);
             if (dot < 0)
             {
@@ -142,7 +41,51 @@ namespace project_true.Tools
                 Console.Write("#");
             }
         }
-        public void NearestSphereTracing()
+
+        /// <summary>
+        /// Part 4 Implementation
+        /// </summary>
+        public void FigureTracing()
+        {
+            // Camera
+            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
+            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
+            int distance = 5;
+
+            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
+
+            // Scene
+            Scene scene = new Scene(camera);
+
+            //Sphere
+            double r = 9;
+            MyPoint sphereCenter = new MyPoint() { X = 10, Y = 0, Z = 0 };
+
+            //Figure myFigure = new MySphere() { Center = sphereCenter, Radius = r };
+
+            //Triangle
+            MyPoint a = new MyPoint(7, 0, -5);
+            MyPoint b = new MyPoint(5, 5, -2);
+            MyPoint c = new MyPoint(6, 0, 8);
+
+            Figure myFigure = new MyTriangle(a, b, c);
+
+            // Add Sphere
+            scene.AddFigure(myFigure);
+
+            // Our Canvas size
+            int height = 20, width = 20;
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+
+            // Light Vector
+            //MyVector L = new MyVector(0, 1, 0);
+            MyVector L = null;
+
+            DrawFigure(myFigure, scene, height, width, topLeft, L);
+
+            Console.WriteLine();
+        }
+        public void NearestFigureTracing()
         {
             // Camera
             MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
@@ -171,35 +114,13 @@ namespace project_true.Tools
             scene.AddFigure(mySphere2);
 
             // Our Canvas size
-            int n = 20, m = 20;
+            int height = 20, width = 20;
             MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
 
             // Light Vector
-            MyVector L = new MyVector(0, 1, 0);
-            Figure nearest = FindNearestFigure(scene, n, m, topLeft);
+            Figure nearest = FindNearestFigure(scene, height, width, topLeft);
 
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < m; j++)
-                {
-                    MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
-
-                    // ref IntersectionPoint
-                    MyPoint IntersectionPoint = new MyPoint();
-
-                    // Point and Camera most likely not working correctly
-                    if (nearest.RayIntersect(scene.Camera.Center, rayPointer, ref IntersectionPoint))
-                    {
-                        Console.Write("#");
-                    }
-                    else
-                    {
-                        Console.Write(" ");
-                    }
-                }
-
-                Console.WriteLine("|");
-            }
+            DrawFigure(nearest, scene, height, width, topLeft, null);
 
             Console.WriteLine();
         }
@@ -231,6 +152,39 @@ namespace project_true.Tools
                 }
             }
             return nearestFigure;
+        }
+
+        public void DrawFigure(Figure figure, Scene scene, int height, int width, MyPoint topLeft, MyVector L)
+        {
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
+
+                    // ref IntersectionPoint
+                    MyPoint IntersectionPoint = new MyPoint();
+
+                    // Point and Camera most likely not working correctly
+                    if (figure.RayIntersect(scene.Camera.Center, rayPointer, ref IntersectionPoint))
+                    {
+                        if (L != null)
+                        {
+                            Lighting(figure, IntersectionPoint, L);
+                        }
+                        else
+                        {
+                            Console.Write("#");
+                        }
+                    }
+                    else
+                    {
+                        Console.Write(" ");
+                    }
+                }
+
+                Console.WriteLine("|");
+            }
         }
     }
 }

@@ -78,5 +78,12 @@ namespace project_true.Figures
                 return false;
             }
         }
+
+        public override MyVector GetNormal(MyPoint intersectionPoint)
+        {
+            MyVector sideA = new MyVector(B - A);
+            MyVector sideB = new MyVector(C - A);
+            return MyVector.Cross(sideA, sideB).Normalization();
+        }
     }
 }

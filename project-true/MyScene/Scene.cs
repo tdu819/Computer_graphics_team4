@@ -26,7 +26,5 @@ namespace project_true.MyScene
                 Figures.Add(figure);
             }
         }
-
-
     }
 }
