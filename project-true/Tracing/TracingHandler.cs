@@ -8,7 +8,7 @@ using project_true.Camera;
 
 namespace project_true.Tracing
 {
-    class TracingHandler
+    public class TracingHandler
     {
         // TODO Intersection point is not necessary?
         /// <summary>
@@ -126,7 +126,7 @@ namespace project_true.Tracing
             Console.WriteLine();
         }
 
-        private Figure FindNearestFigure(Scene scene, int height, int width, MyPoint topLeft)
+        public Figure FindNearestFigure(Scene scene, int height, int width, MyPoint topLeft)
         {
             double minDistance = Double.MaxValue;
             Figure nearestFigure = null;
@@ -135,6 +135,7 @@ namespace project_true.Tracing
             {
                 for (int j = 0; j < width; j++)
                 {
+                    // todo strange raypointer. x + 0.
                     MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
 
                     foreach (Figure f in scene.Figures)

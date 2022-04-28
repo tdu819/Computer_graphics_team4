@@ -11,5 +11,15 @@ namespace project_true.Figures
                                           MyPoint rayPointer,
                                           ref MyPoint IntersectionPoint);
         public abstract MyVector GetNormal(MyPoint intersectionPoint);
+
+        public override bool Equals(object? obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

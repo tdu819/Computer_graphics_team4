@@ -35,9 +35,9 @@ namespace project_true.Camera
         {
             MyPoint planeCenter = new MyPoint() 
             { 
-                X = _distance, 
-                Y = Center.Y, 
-                Z = Center.Z 
+                X = _distance * Direction.X, 
+                Y = _distance * Direction.Y, 
+                Z = _distance * Direction.Z 
             };
             MyPlane plane = new MyPlane(planeCenter, Direction.Normalization());
             _plane = plane;

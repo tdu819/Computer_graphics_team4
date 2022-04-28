@@ -78,5 +78,17 @@ namespace project_true.Figures
                 return true;
             }
         }
+        
+        public override bool Equals(object? obj)
+        {
+            return this.Center == ((MySphere)obj).Center &&
+                   this.Radius == ((MySphere)obj).Radius;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        
     }
 }

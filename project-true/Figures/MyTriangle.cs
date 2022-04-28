@@ -85,5 +85,19 @@ namespace project_true.Figures
             MyVector sideB = new MyVector(C - A);
             return MyVector.Cross(sideA, sideB).Normalization();
         }
+        
+        
+        public override bool Equals(object? obj)
+        {
+            return this.A == ((MyTriangle)obj).A &&
+                   this.B == ((MyTriangle)obj).B &&
+                   this.C == ((MyTriangle)obj).C;
+
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

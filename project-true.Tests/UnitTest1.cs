@@ -1,6 +1,8 @@
 using System;
 using NUnit.Framework;
+using project_true.Camera;
 using project_true.Figures;
+using project_true.MyScene;
 using project_true.Primitives;
 using project_true.Tracing;
 
@@ -119,13 +121,16 @@ namespace project_true.Tests
     // }
     //
     //
-    
+
+
     [TestFixture]
-    public class RayTracerTests
+    public class MySphereTests
     {
         [SetUp]
         public void Setup()
         {
+            var vector1 = new MyVector(1, 2, 3);
+            var vector2 = new MyVector(1, 2, 3);
         }
 
         /// <summary>
@@ -139,7 +144,7 @@ namespace project_true.Tests
             MyPoint origin = new MyPoint(0, 0, 0);
             MyPoint sphereCenter = new MyPoint(20, 0, 0);
             double radius = 10;
-            MySphere sphere = new MySphere() { Center = sphereCenter, Radius = radius};
+            MySphere sphere = new MySphere() { Center = sphereCenter, Radius = radius };
             MyPoint point = new MyPoint(15, 0, Math.Sqrt(75));
             MyPoint intersect = new MyPoint();
             // act
@@ -194,6 +199,7 @@ namespace project_true.Tests
 
             Assert.AreEqual(expected, actual);
         }
+
         /// <summary>
         /// Result is nearest of two possible points.
         /// </summary>
@@ -258,9 +264,19 @@ namespace project_true.Tests
 
             Assert.AreEqual(expected, actual);
         }
-        
-        
-        // RayIntersectsTriangle
+    }
+
+
+    [TestFixture]
+    public class MyTriangleTests
+    {
+        [SetUp]
+        public void Setup()
+        {
+            var vector1 = new MyVector(1, 2, 3);
+            var vector2 = new MyVector(1, 2, 3);
+        }
+
         [Test]
         public void RayIntersectsTriangle_cameraStrikesInsideTriangle()
         {
@@ -272,10 +288,8 @@ namespace project_true.Tests
             MyPoint c = new MyPoint(15, 1, 5);
             MyTriangle triangle = new MyTriangle(a, b, c);
             MyPoint rayPointer = new MyPoint(20, 0, 0);
-            
-            
-            
-            
+
+
             MyPoint outIntersectionPoint = new MyPoint();
             // act
 
@@ -285,7 +299,7 @@ namespace project_true.Tests
 
             Assert.IsTrue(actual);
         }
-        
+
         [Test]
         public void RayIntersectsTriangle_cameraStrikesInTriangleVertex()
         {
@@ -299,8 +313,6 @@ namespace project_true.Tests
             MyPoint rayPointer = new MyPoint(20, 0, 0);
 
 
-
-
             MyPoint outIntersectionPoint = new MyPoint();
             // act
 
@@ -310,7 +322,7 @@ namespace project_true.Tests
 
             Assert.IsTrue(actual);
         }
-        
+
         [Test]
         public void RayIntersectsTriangle_cameraAndTriangleParallell()
         {
@@ -332,7 +344,7 @@ namespace project_true.Tests
 
             Assert.IsFalse(actual);
         }
-        
+
         [Test]
         public void RayIntersectsTriangle_cameraAndTriangle_CameraMissesTriangle()
         {
@@ -354,7 +366,7 @@ namespace project_true.Tests
 
             Assert.IsFalse(actual);
         }
-        
+
         [Test]
         public void RayIntersectsTriangle_TriangleBehindTheCamera()
         {
@@ -375,6 +387,257 @@ namespace project_true.Tests
             // assert
 
             Assert.IsFalse(actual);
+        }
+    }
+
+
+    [TestFixture]
+    public class TracingHandlerTests
+    {
+        [SetUp]
+        public void Setup()
+        {
+        }
+
+        [Test]
+        public void FindNearestFigure_TwoSpheres_ReturnNearestMySphere1()
+        {
+            TracingHandler handler = new TracingHandler();
+
+            // arrange
+            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
+            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
+            int distance = 5;
+
+            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
+
+            // Scene
+            Scene scene = new Scene(camera);
+
+            //Sphere1
+            double r1 = 9;
+            MyPoint sphereCenter1 = new MyPoint() { X = 10, Y = 0, Z = -5 };
+
+            Figure mySphere1 = new MySphere() { Center = sphereCenter1, Radius = r1 };
+
+            //Sphere2
+            double r2 = 8;
+            MyPoint sphereCenter2 = new MyPoint() { X = 10, Y = 0, Z = 5 };
+
+            Figure mySphere2 = new MySphere() { Center = sphereCenter2, Radius = r2 };
+
+            // Add Sphere
+            scene.AddFigure(mySphere1);
+            scene.AddFigure(mySphere2);
+
+            // Our Canvas size
+            int height = 20, width = 20;
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+
+            // expected
+            var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
+
+            // act
+
+            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+
+            // assert
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void FindNearestFigure_TwoSpheres_ReturnNearestMySphere2()
+        {
+            TracingHandler handler = new TracingHandler();
+
+            // arrange
+            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
+            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
+            int distance = 5;
+
+            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
+
+            // Scene
+            Scene scene = new Scene(camera);
+
+            //Sphere1
+            double r1 = 5;
+            MyPoint sphereCenter1 = new MyPoint() { X = 10, Y = 0, Z = -5 };
+
+            Figure mySphere1 = new MySphere() { Center = sphereCenter1, Radius = r1 };
+
+            //Sphere2
+            double r2 = 5;
+            MyPoint sphereCenter2 = new MyPoint() { X = 7, Y = 0, Z = 5 };
+
+            Figure mySphere2 = new MySphere() { Center = sphereCenter2, Radius = r2 };
+
+            // Add Sphere
+            scene.AddFigure(mySphere1);
+            scene.AddFigure(mySphere2);
+
+            // Our Canvas size
+            int height = 20, width = 20;
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+
+            // expected
+            var expected = new MySphere() { Center = sphereCenter2, Radius = r2 };
+
+            // act
+
+            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+
+            // assert
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void FindNearestFigure_SphereAndTriangle_ReturnNearestFigureTriangle()
+        {
+            TracingHandler handler = new TracingHandler();
+
+            // arrange
+            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
+            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
+            int distance = 5;
+
+            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
+
+            // Scene
+            Scene scene = new Scene(camera);
+
+            //Sphere1
+            double r1 = 1;
+            MyPoint sphereCenter1 = new MyPoint() { X = 10, Y = 0, Z = -5 };
+
+            Figure mySphere1 = new MySphere() { Center = sphereCenter1, Radius = r1 };
+
+            //triangle1
+            MyPoint a = new MyPoint(1, 0, 0);
+            MyPoint b = new MyPoint(5, 4, -1);
+            MyPoint c = new MyPoint(1, -4, -1);
+
+
+            Figure triangle1 = new MyTriangle(a, b, c);
+
+            // Add Sphere
+            scene.AddFigure(mySphere1);
+            scene.AddFigure(triangle1);
+
+            // Our Canvas size
+            int height = 20, width = 20;
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+
+            // expected
+            var expected = new MyTriangle(a, b, c);
+
+            // act
+
+            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+
+            // assert
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void FindNearestFigure_SphereAroundCameraAndTriangle_ReturnNearestFigureSphere()
+        {
+            TracingHandler handler = new TracingHandler();
+
+            // arrange
+            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
+            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
+            int distance = 5;
+
+            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
+
+            // Scene
+            Scene scene = new Scene(camera);
+
+            //Sphere1
+            double r1 = 6;
+            MyPoint sphereCenter1 = new MyPoint() { X = 10, Y = 0, Z = 0 };
+
+            Figure mySphere1 = new MySphere() { Center = sphereCenter1, Radius = r1 };
+
+            //triangle1
+            MyPoint a = new MyPoint(-3, 0, -5);
+            MyPoint b = new MyPoint(-3, 4, -1);
+            MyPoint c = new MyPoint(-3, 0, 10);
+
+
+            Figure triangle1 = new MyTriangle(a, b, c);
+
+            // Add Sphere
+            scene.AddFigure(mySphere1);
+            scene.AddFigure(triangle1);
+
+            // Our Canvas size
+            int height = 20, width = 20;
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+
+            // expected
+            var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
+
+            // act
+
+            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+
+            // assert
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void FindNearestFigure_SphereAroundCameraAndTriangle_ReturnNull()
+        {
+            TracingHandler handler = new TracingHandler();
+
+            // arrange
+            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
+            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
+            int distance = 5;
+
+            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
+
+            // Scene
+            Scene scene = new Scene(camera);
+
+            //Sphere1
+            double r1 = 1;
+            MyPoint sphereCenter1 = new MyPoint() { X = -10, Y = 0, Z = 0 };
+
+            Figure mySphere1 = new MySphere() { Center = sphereCenter1, Radius = r1 };
+
+            //triangle1
+            MyPoint a = new MyPoint(-3, 1, 0);
+            MyPoint b = new MyPoint(-3, 0, 0);
+            MyPoint c = new MyPoint(-3, -1, 0);
+
+
+            Figure triangle1 = new MyTriangle(a, b, c);
+
+            // Add Sphere
+            scene.AddFigure(mySphere1);
+            scene.AddFigure(triangle1);
+
+            // Our Canvas size
+            int height = 20, width = 20;
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+
+            // expected
+            // var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
+
+            // act
+
+            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+
+            // assert
+
+            Assert.IsNull(actual);
         }
     }
 }
