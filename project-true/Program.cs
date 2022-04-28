@@ -1,7 +1,7 @@
 ﻿using project_true.Figures;
 using System;
 using project_true.Primitives;
-using project_true.Tools;
+using project_true.Tracing;
 
 namespace project_true
 {
@@ -9,10 +9,12 @@ namespace project_true
     {
         static void Main(string[] args)
         {
-            //TracingHandler.SphereTracing();
+            TracingHandler handler = new TracingHandler();
+            handler.FigureTracing();
+            Console.ReadLine();
+            Console.Clear();
 
-            //TracingHandler.TriangleTracing();
-            new TracingHandler().FigureTracing();
+            handler.NearestFigureTracing();
 
             Console.ReadLine();
         }

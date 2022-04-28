@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using project_true.Figures;
 using project_true.Primitives;
 
-namespace project_true.Figures
+namespace project_true.Camera
 {
     public class MyCamera
     {

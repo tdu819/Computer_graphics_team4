@@ -4,8 +4,9 @@ using project_true.MyScene;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using project_true.Camera;
 
-namespace project_true.Tools
+namespace project_true.Tracing
 {
     class TracingHandler
     {
@@ -16,7 +17,7 @@ namespace project_true.Tools
         /// <param name="figure"></param>
         /// <param name="intersection"></param>
         /// <param name="L"></param>
-        public static void Lighting(Figure figure, MyPoint intersection, MyVector L)
+        private static void Lighting(Figure figure, MyPoint intersection, MyVector L)
         {
             MyVector normal = figure.GetNormal(intersection);
             double dot = MyVector.Dot(normal, L);
@@ -125,7 +126,7 @@ namespace project_true.Tools
             Console.WriteLine();
         }
 
-        public Figure FindNearestFigure(Scene scene, int height, int width, MyPoint topLeft)
+        private Figure FindNearestFigure(Scene scene, int height, int width, MyPoint topLeft)
         {
             double minDistance = Double.MaxValue;
             Figure nearestFigure = null;
@@ -154,7 +155,7 @@ namespace project_true.Tools
             return nearestFigure;
         }
 
-        public void DrawFigure(Figure figure, Scene scene, int height, int width, MyPoint topLeft, MyVector L)
+        private void DrawFigure(Figure figure, Scene scene, int height, int width, MyPoint topLeft, MyVector L)
         {
             for (int i = 0; i < height; i++)
             {

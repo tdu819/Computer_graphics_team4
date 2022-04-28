@@ -1,4 +1,5 @@
-﻿using project_true.Figures;
+﻿using project_true.Camera;
+using project_true.Figures;
 using System;
 using System.Collections.Generic;
 using System.Text;

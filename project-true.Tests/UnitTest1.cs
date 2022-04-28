@@ -2,7 +2,7 @@ using System;
 using NUnit.Framework;
 using project_true.Figures;
 using project_true.Primitives;
-using project_true.Tools;
+using project_true.Tracing;
 
 namespace project_true.Tests
 {
