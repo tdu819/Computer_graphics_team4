@@ -33,11 +33,21 @@ namespace project_true.Camera
 
         private void CreateCameraPlane()
         {
+            MyVector xAxis = new MyVector(1, 0, 0);
+            MyVector yAxis = new MyVector(0, 1, 0);
+            var xzAngle = Math.Acos(MyVector.Dot(xAxis, Direction) / (MyVector.Length(Direction)));
+            var xyAngle = Math.Acos(MyVector.Dot(yAxis, Direction) / (MyVector.Length(Direction)));
+
+            var xzCos = Math.Round(Math.Cos(xzAngle), 5);
+            var xzSin = Math.Round(Math.Sin(xzAngle), 5);
+            var xySin = Math.Round(Math.Sin(xyAngle), 5);
+            var xyCos = Math.Round(Math.Cos(xyAngle), 5);
+
             MyPoint planeCenter = new MyPoint() 
             { 
-                X = _distance * Direction.X, 
-                Y = _distance * Direction.Y, 
-                Z = _distance * Direction.Z 
+                X = Center.X + (_distance * xzCos * xySin), 
+                Y = Center.Y + (_distance * xyCos),
+                Z = Center.Z + (_distance * xzSin * xySin),
             };
             MyPlane plane = new MyPlane(planeCenter, Direction.Normalization());
             _plane = plane;

@@ -62,14 +62,14 @@ namespace project_true.Tracing
             double r = 9;
             MyPoint sphereCenter = new MyPoint() { X = 10, Y = 0, Z = 0 };
 
-            //Figure myFigure = new MySphere() { Center = sphereCenter, Radius = r };
+            Figure myFigure = new MySphere() { Center = sphereCenter, Radius = r };
 
             //Triangle
             MyPoint a = new MyPoint(7, 0, -5);
             MyPoint b = new MyPoint(5, 5, -2);
             MyPoint c = new MyPoint(6, 0, 8);
 
-            Figure myFigure = new MyTriangle(a, b, c);
+            //Figure myFigure = new MyTriangle(a, b, c);
 
             // Add Sphere
             scene.AddFigure(myFigure);
