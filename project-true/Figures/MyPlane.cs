@@ -32,15 +32,14 @@ namespace project_true.Figures
 
         public override bool RayIntersect(MyPoint rayOrigin, MyPoint rayPointer, ref MyPoint IntersectionPoint)
         {
-            throw new NotImplementedException();
-            
-            // float denom = normal.dot(ray.direction);
-            // if (abs(denom) > 0.0001f) // your favorite epsilon
-            // {
-            //     float t = (center - ray.origin).dot(normal) / denom;
-            //     if (t >= 0) return true; // you might want to allow an epsilon here too
-            // }
-            // return false;
+            MyVector rayVector = new MyVector(rayOrigin, rayPointer);
+            double denom = MyVector.Dot(_normal, rayVector);
+            if (Math.Abs(denom) > 0.0001f) // your favorite epsilon
+            {
+                double t = MyVector.Dot(new MyVector(_center - rayOrigin), _normal) / denom;
+                if (t >= 0) return true; // you might want to allow an epsilon here too
+            }
+            return false;
         }
 
         public override MyVector GetNormal(MyPoint intersectionPoint)

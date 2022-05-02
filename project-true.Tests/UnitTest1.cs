@@ -640,4 +640,101 @@ namespace project_true.Tests
             Assert.IsNull(actual);
         }
     }
+
+    [TestFixture]
+    public class MyPlaneTests
+    {
+        [TestCase(-10, 0, 0, ExpectedResult=false)]
+        [TestCase(10, 0, 0, ExpectedResult=true)]
+        public bool RayIntersect_VerticalPlane(int px, int py, int pz)
+        {
+            // arrange
+
+            MyPoint camera = new MyPoint(0, 0, 0);
+            MyPoint a = new MyPoint(px, py, pz);
+            MyVector normal = new MyVector(1, 0, 0);
+            MyPlane plane = new MyPlane(a, normal);
+            MyPoint rayPointer = new MyPoint(20, 0, 0);
+
+
+            MyPoint outIntersectionPoint = new MyPoint();
+            // act
+
+            bool actual = plane.RayIntersect(camera, rayPointer, ref outIntersectionPoint);
+
+            // assert
+
+            return actual;
+        }
+        
+        // infinite number of intersections?
+        [TestCase(-10, 0, 0, ExpectedResult=false)]
+        [TestCase(10, 0, 0, ExpectedResult=false)]
+        public bool RayIntersect_InvisiblePlane(int px, int py, int pz)
+        {
+            // arrange
+
+            MyPoint camera = new MyPoint(0, 0, 0);
+            MyPoint a = new MyPoint(px, py, pz);
+            MyVector normal = new MyVector(0, 0, 1);
+            MyPlane plane = new MyPlane(a, normal);
+            MyPoint rayPointer = new MyPoint(20, 0, 0);
+
+
+            MyPoint outIntersectionPoint = new MyPoint();
+            // act
+
+            bool actual = plane.RayIntersect(camera, rayPointer, ref outIntersectionPoint);
+
+            // assert
+
+            return actual;
+        }
+
+        [TestCase(-10, 0, 0, ExpectedResult = false)]
+        [TestCase(10, 0, 0, ExpectedResult = true)]
+        public bool RayIntersect_AngledPlane(int px, int py, int pz)
+        {
+            // arrange
+
+            MyPoint camera = new MyPoint(0, 0, 0);
+            MyPoint a = new MyPoint(px, py, pz);
+            MyVector normal = new MyVector(1, 0, 0);
+            MyPlane plane = new MyPlane(a, normal);
+            MyPoint rayPointer = new MyPoint(1, 1, 0);
+
+
+            MyPoint outIntersectionPoint = new MyPoint();
+            // act
+
+            bool actual = plane.RayIntersect(camera, rayPointer, ref outIntersectionPoint);
+
+            // assert
+
+            return actual;
+        }
+
+        [TestCase(-10, 0, -1, ExpectedResult = false)]
+        [TestCase(10, 0, -1, ExpectedResult = false)]
+        public bool RayIntersect_ParallelPlane(int px, int py, int pz)
+        {
+            // arrange
+
+            MyPoint camera = new MyPoint(0, 0, 0);
+            MyPoint a = new MyPoint(px, py, pz);
+            MyVector normal = new MyVector(0, 0, 1);
+            MyPlane plane = new MyPlane(a, normal);
+            MyPoint rayPointer = new MyPoint(1, 0, 0);
+
+
+            MyPoint outIntersectionPoint = new MyPoint();
+            // act
+
+            bool actual = plane.RayIntersect(camera, rayPointer, ref outIntersectionPoint);
+
+            // assert
+
+            return actual;
+        }
+    }
 }
