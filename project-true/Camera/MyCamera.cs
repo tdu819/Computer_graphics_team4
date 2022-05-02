@@ -47,7 +47,10 @@ namespace project_true.Camera
             { 
                 X = Center.X + (_distance * xzCos * xySin), 
                 Y = Center.Y + (_distance * xyCos),
-                Z = Center.Z + (_distance * xzSin * xySin),
+                Z = Center.Z + (_distance * xzSin * xySin)
+                /*X = _distance,
+                Y = Center.Y,
+                Z = Center.Z*/
             };
             MyPlane plane = new MyPlane(planeCenter, Direction.Normalization());
             _plane = plane;

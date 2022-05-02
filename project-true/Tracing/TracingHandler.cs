@@ -76,7 +76,7 @@ namespace project_true.Tracing
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // Light Vector
             //MyVector L = new MyVector(0, 1, 0);
@@ -116,7 +116,7 @@ namespace project_true.Tracing
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // Light Vector
             Figure nearest = FindNearestFigure(scene, height, width, topLeft);

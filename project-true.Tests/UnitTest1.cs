@@ -432,7 +432,7 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
@@ -479,7 +479,7 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MySphere() { Center = sphereCenter2, Radius = r2 };
@@ -528,7 +528,7 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MyTriangle(a, b, c);
@@ -577,7 +577,7 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
@@ -626,7 +626,7 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(0, 9.5, -9.5);
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             // var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
