@@ -24,9 +24,9 @@ namespace project_true.Figures
         {
             return new MyPoint()
             {
-                X = _center.X, 
+                X = _center.X,
                 Y = _center.Y + ((height / 2 - 0.5)),
-                Z = _center.Z - ((width / 2 - 0.5)) 
+                Z = _center.Z - ((width / 2 - 0.5))
             };
         }
 
@@ -37,8 +37,13 @@ namespace project_true.Figures
             if (Math.Abs(denom) > 0.0001f) // your favorite epsilon
             {
                 double t = MyVector.Dot(new MyVector(_center - rayOrigin), _normal) / denom;
-                if (t >= 0) return true; // you might want to allow an epsilon here too
+                if (t >= 0)
+                {
+                    IntersectionPoint = new MyPoint(rayVector * t);
+                    return true; // you might want to allow an epsilon here too
+                }
             }
+            
             return false;
         }
 

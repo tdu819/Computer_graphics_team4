@@ -714,6 +714,13 @@ namespace project_true.Tests
             return actual;
         }
 
+        /// <summary>
+        /// Plane is parallel to our ray.
+        /// </summary>
+        /// <param name="px"></param>
+        /// <param name="py"></param>
+        /// <param name="pz"></param>
+        /// <returns></returns>
         [TestCase(-10, 0, -1, ExpectedResult = false)]
         [TestCase(10, 0, -1, ExpectedResult = false)]
         public bool RayIntersect_ParallelPlane(int px, int py, int pz)
@@ -735,6 +742,62 @@ namespace project_true.Tests
             // assert
 
             return actual;
+        }
+        
+        [Test]
+        public void RayIntersect_IntersectionPoint()
+        {
+            // arrange
+
+            MyPoint camera = new MyPoint(0, 0, 0);
+            
+            MyPoint a = new MyPoint(10, 0, 0);
+            MyVector normal = new MyVector(1, 0, 0);
+            MyPlane plane = new MyPlane(a, normal);
+            MyPoint rayPointer = new MyPoint(1, 0, 0);
+
+
+            var expected = new MyPoint(10, 0, 0);
+
+
+            MyPoint outIntersectionPoint = new MyPoint();
+            // act
+
+            plane.RayIntersect(camera, rayPointer, ref outIntersectionPoint);
+
+            var actual = outIntersectionPoint;
+
+            // assert
+
+            Assert.AreEqual(expected, actual);
+        }
+        
+        [Test]
+        public void RayIntersect_PlaneThroughPointX10()
+        {
+            // arrange
+
+            MyPoint camera = new MyPoint(0, 0, 0);
+            
+            MyPoint a = new MyPoint(10, 0, 0);
+            MyVector normal = new MyVector(1, 0, 0);
+            MyPlane plane = new MyPlane(a, normal);
+            MyPoint rayPointer = new MyPoint(10, 17, 8);
+
+
+            var expected = new MyPoint(10, 17, 8);
+
+
+            MyPoint outIntersectionPoint = new MyPoint();
+            // act
+
+            plane.RayIntersect(camera, rayPointer, ref outIntersectionPoint);
+
+            var actual = outIntersectionPoint;
+
+            // assert
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }

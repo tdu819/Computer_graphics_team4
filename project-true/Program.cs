@@ -14,7 +14,7 @@ namespace project_true
             Console.ReadLine();
             Console.Clear();
 
-            //handler.NearestFigureTracing();
+            handler.NearestFigureTracing();
 
             Console.ReadLine();
         }

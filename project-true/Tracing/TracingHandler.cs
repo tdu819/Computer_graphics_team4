@@ -86,6 +86,8 @@ namespace project_true.Tracing
 
             Console.WriteLine();
         }
+        
+        // lab1,  part5. 
         public void NearestFigureTracing()
         {
             // Camera
