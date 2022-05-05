@@ -1,12 +1,22 @@
-﻿using System;
+﻿using project_true.Figures;
+using System;
+using project_true.Primitives;
+using project_true.Tracing;
 
 namespace project_true
 {
-    class Program
+    public static class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            TracingHandler handler = new TracingHandler();
+            handler.FigureTracing();
+            Console.ReadLine();
+            Console.Clear();
+
+            handler.NearestFigureTracing();
+
+            Console.ReadLine();
         }
     }
 }
