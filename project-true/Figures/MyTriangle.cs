@@ -8,6 +8,8 @@ namespace project_true.Figures
         public MyPoint A { get; set; }
         public MyPoint B { get; set; }
         public MyPoint C { get; set; }
+        
+        public MyVector Normal { get; set; }
 
         public MyTriangle()
         {
@@ -19,6 +21,14 @@ namespace project_true.Figures
             A = a;
             B = b;
             C = c;
+        }
+        
+        public MyTriangle(MyPoint a, MyPoint b, MyPoint c, MyVector normal)
+        {
+            A = a;
+            B = b;
+            C = c;
+            Normal = normal;
         }
 
         public override bool RayIntersect(MyPoint rayOrigin, 
@@ -85,6 +95,8 @@ namespace project_true.Figures
             MyVector sideB = new MyVector(C - A);
             return MyVector.Cross(sideA, sideB).Normalization();
         }
+        
+
         
         
         public override bool Equals(object? obj)

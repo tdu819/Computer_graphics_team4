@@ -9,10 +9,19 @@ namespace project_true
     {
         static void Main(string[] args)
         {
-            TracingHandler handler = new TracingHandler();
-            handler.FigureTracing();
+            string path = "koenigsegg.obj";
+            
+            ObjHandler objHandler = new ObjHandler();
+            var result = objHandler.ReadObjFile(path);
+
+
+            Console.WriteLine("hi");
+            // TracingHandler handler = new TracingHandler();
+            // handler.FigureTracing();
+
+
             // Console.ReadLine();
-            Console.Clear();
+            // Console.Clear();
 
             //handler.NearestFigureTracing();
 

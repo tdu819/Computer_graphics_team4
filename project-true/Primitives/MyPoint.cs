@@ -7,6 +7,8 @@
         public double Z { get; set; }
         public string Value { get; set; }
         
+        public MyVector Normal { get; set; }
+        
         public MyPoint()
         {
             
