@@ -26,8 +26,9 @@ namespace project_true.Tracing
             double dot = MyVector.Dot(normal, L);
             return dot;
         }
-        private void DrawLighting(double lighting) 
-        { 
+
+        private void DrawLighting(double lighting)
+        {
             if (lighting < 0)
             {
                 Console.Write(" ");
@@ -52,13 +53,14 @@ namespace project_true.Tracing
 
         /// <summary>
         /// Lab 1 Part 4 Implementation
+        /// lab 2 part 1
         /// </summary>
         public void FigureTracing()
         {
             // Camera
             MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
             MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
-            int distance = 5;
+            int distance = 10;
 
             MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
 
@@ -67,14 +69,14 @@ namespace project_true.Tracing
 
             //Sphere
             double r = 9;
-            MyPoint sphereCenter = new MyPoint() { X = 10, Y = 0, Z = 7 };
+            MyPoint sphereCenter = new MyPoint() { X = 10, Y = 0, Z = 10 };
 
             Figure myFigure = new MySphere() { Center = sphereCenter, Radius = r };
 
             //Triangle
-            MyPoint a = new MyPoint(7, 0, -7);
-            MyPoint b = new MyPoint(5, 5, -4);
-            MyPoint c = new MyPoint(6, 0, 6);
+            MyPoint a = new MyPoint(15, 25, -50);
+            MyPoint b = new MyPoint(15, 25, 20);
+            MyPoint c = new MyPoint(15, -30, 20);
 
             Figure myFigure1 = new MyTriangle(a, b, c);
 
@@ -83,12 +85,12 @@ namespace project_true.Tracing
             scene.AddFigure(myFigure1);
 
             // Our Canvas size
-            int height = 20, width = 20;
+            int height = 200, width = 200;
             MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // Light Vector
             MyVector L = new MyVector(1, 0, 0);
-            //MyVector L = null;
+            // MyVector L = null;
 
             //DrawFigure(myFigure, scene, height, width, topLeft, L);
 
@@ -97,7 +99,7 @@ namespace project_true.Tracing
 
             Console.WriteLine();
         }
-        
+
         // lab1,  part5. 
         public void NearestFigureTracing()
         {
@@ -166,8 +168,10 @@ namespace project_true.Tracing
                     }
                 }
             }
+
             return nearestFigure;
         }
+
         private void DrawFigure(Figure figure, Scene scene, int height, int width, MyPoint topLeft, MyVector L)
         {
             for (int i = 0; i < height; i++)
@@ -200,6 +204,7 @@ namespace project_true.Tracing
                 Console.WriteLine("|");
             }
         }
+
         private void DrawScene(Scene scene, int height, int width, MyPoint topLeft, MyVector L)
         {
             for (int i = 0; i < height; i++)
@@ -216,7 +221,7 @@ namespace project_true.Tracing
                     {
                         MyPoint Intersection = new MyPoint();
                         if (f.RayIntersect(scene.Camera.Center, rayPointer, ref Intersection))
-                            {
+                        {
                             double dist = MyVector.Length(new MyVector(scene.Camera.Center, IntersectionPoint));
                             if (dist < minDistance)
                             {
@@ -249,6 +254,7 @@ namespace project_true.Tracing
                 Console.WriteLine("|");
             }
         }
+
         private void WriteToPPM(Scene scene, int height, int width, MyPoint topLeft, MyVector L)
         {
             using StreamWriter file = new StreamWriter("car.ppm");
@@ -300,6 +306,7 @@ namespace project_true.Tracing
                         {
                             pixel = Vector3.Multiply(1f, rgb);
                         }
+
                         file.WriteLine($"{pixel.X} {pixel.Y} {pixel.Z}");
                     }
                     else
@@ -309,6 +316,5 @@ namespace project_true.Tracing
                 }
             }
         }
-
     }
 }

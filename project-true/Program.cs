@@ -11,12 +11,12 @@ namespace project_true
         {
             TracingHandler handler = new TracingHandler();
             handler.FigureTracing();
-            Console.ReadLine();
+            // Console.ReadLine();
             Console.Clear();
 
             //handler.NearestFigureTracing();
 
-            Console.ReadLine();
+            // Console.ReadLine();
         }
     }
 }
