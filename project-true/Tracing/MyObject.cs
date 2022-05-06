@@ -9,9 +9,9 @@ namespace project_true.Tracing
         public string Name { get; set; }
         public string Path { get; set; }
 
-        public List<MyPoint> Points { get; set; } = new List<MyPoint>();
-        public List<MyVector> Normals { get; set; } = new List<MyVector>();
-        public List<MyTriangle> Triangles { get; set; } = new List<MyTriangle>();
+        public List<MyPoint> Points { get; set; } = new List<MyPoint>(){null};
+        public List<MyVector> Normals { get; set; } = new List<MyVector>(){null};
+        public List<MyTriangle> Triangles { get; set; } = new List<MyTriangle>(){null};
 
         public MyObject(string name)
         {
