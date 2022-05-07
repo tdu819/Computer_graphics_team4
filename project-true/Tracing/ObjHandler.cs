@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using project_true.Figures;
 using project_true.Primitives;
 
@@ -9,100 +10,123 @@ namespace project_true.Tracing
     {
         public List<MyObject> ReadObjFile(string path)
         {
-            MyObject myObject = new MyObject("Name");
+            MyObject myObject = null;
             List<MyObject> myObjects = new List<MyObject>();
+            List<int> fLineCounter = new List<int>();
 
             using StreamReader file = new StreamReader(path);
             string line;
 
-            var array = new string[5];
+            string[] array;
+            List<MyPoint> points = new List<MyPoint>() { null };
+            List<MyVector> normals = new List<MyVector>() { null };
+            List<List<string>> figures = new List<List<string>>();
 
-            int counter = 0;
+            int figuresCount = 0;
 
             while ((line = file.ReadLine()) != null)
             {
-                counter++;
                 if (line[0] == '#') continue;
 
                 array = line.Split(' ');
 
                 switch (array[0])
                 {
-                    // case "o":
-                    // {
-                    //     myObject = new MyObject(array[1]);
-                    //     myObjects.Add(myObject);
-                    //
-                    //     break;
-                    // }
-                    case "v":
-                    {
-                        double x = double.Parse(array[1], System.Globalization.CultureInfo.InvariantCulture);
-                        double y = double.Parse(array[2], System.Globalization.CultureInfo.InvariantCulture);
-                        double z = double.Parse(array[3], System.Globalization.CultureInfo.InvariantCulture);
-                        myObject?.Points.Add(new MyPoint(x, y, z));
+                    case "o":
+                        {
+                            if (myObject != null)
+                            {
+                                fLineCounter.Add(figuresCount);
+                            }
 
-                        break;
-                    }
+                            myObject = new MyObject(array[1]);
+                            myObjects.Add(myObject);
+
+                            figuresCount = 0;
+                            break;
+                        }
+                    case "v":
+                        {
+                            double x = double.Parse(array[1], System.Globalization.CultureInfo.InvariantCulture);
+                            double y = double.Parse(array[2], System.Globalization.CultureInfo.InvariantCulture);
+                            double z = double.Parse(array[3], System.Globalization.CultureInfo.InvariantCulture);
+                            if (myObject != null)
+                            {
+                                points.Add(new MyPoint(x, y, z));
+                            }
+
+                            break;
+                        }
 
                     case "vn":
-                    {
-                        double x = double.Parse(array[1], System.Globalization.CultureInfo.InvariantCulture);
-                        double y = double.Parse(array[2], System.Globalization.CultureInfo.InvariantCulture);
-                        double z = double.Parse(array[3], System.Globalization.CultureInfo.InvariantCulture);
-                        myObject?.Normals.Add(new MyVector(x, y, z).Normalization());
-
-                        break;
-                    }
+                        {
+                            double x = double.Parse(array[1], System.Globalization.CultureInfo.InvariantCulture);
+                            double y = double.Parse(array[2], System.Globalization.CultureInfo.InvariantCulture);
+                            double z = double.Parse(array[3], System.Globalization.CultureInfo.InvariantCulture);
+                            if (myObject != null)
+                            {
+                                normals.Add(new MyVector(x, y, z).Normalization());
+                            }
+                            break;
+                        }
+                    case "f":
+                        {
+                            if (myObject != null)
+                            {
+                                List<string> fString = array.Skip(1).ToList();
+                                figures.Add(fString);
+                                figuresCount++;
+                            }
+                            break;
+                        }
                 }
+            }
+            if (myObject != null)
+            {
+                fLineCounter.Add(figuresCount);
             }
 
             file.Close();
 
-            using StreamReader file2 = new StreamReader(path);
-
-
-            var counter2 = 0;
-            
-            while ((line = file2.ReadLine()) != null)
+            for (int i = 0; i < myObjects.Count; i++)
             {
-                counter2++;
-                array = line.Split(' ');
+                MyObject obj = myObjects[i];
+                figuresCount = fLineCounter[i];
 
+                int position = 0;
 
-                if (array[0] == "f")
+                for (int j = position; j < figuresCount; j++, position++)
                 {
-                    
-                    if (array.Length > 4)
+                    List<string> fLine = figures[j];
+
+                    // goes through all vertexes in line with "f" start symbol
+                    for (int p1 = 0; p1 < fLine.Count - 2; p1++)
                     {
-                        continue;
+                        for (int p2 = p1 + 1; p2 < fLine.Count - 1; p2++)
+                        {
+                            for (int p3 = p2 + 1; p3 < fLine.Count; p3++)
+                            {
+                                // indexes of points and normals for chosen vertexes
+                                string[] v1 = fLine[p1].Split('/');
+                                string[] v2 = fLine[p2].Split('/');
+                                string[] v3 = fLine[p3].Split('/');
+
+                                MyPoint a = points[int.Parse(v1[0])];
+                                a.Normal = normals[int.Parse(v1[2])];
+
+                                MyPoint b = points[int.Parse(v2[0])];
+                                b.Normal = normals[int.Parse(v2[2])];
+
+                                MyPoint c = points[int.Parse(v3[0])];
+                                c.Normal = normals[int.Parse(v3[2])];
+
+                                MyTriangle triangle = new MyTriangle(a, b, c);
+                                obj.Triangles.Add(triangle);
+                            }
+                        }
                     }
-                    
-                    string[] a = array[1].Split('/');
-                    string[] b = array[2].Split('/');
-                    string[] c = array[3].Split('/');
-
-
-                    MyPoint pointA =
-                        myObject?.Points[int.Parse(a[0], System.Globalization.CultureInfo.InvariantCulture)];
-                    pointA.Normal = myObject?.Normals[int.Parse(a[2])];
-
-                    MyPoint pointB =
-                        myObject?.Points[int.Parse(b[0], System.Globalization.CultureInfo.InvariantCulture)];
-                    pointB.Normal =
-                        myObject?.Normals[int.Parse(b[2], System.Globalization.CultureInfo.InvariantCulture)];
-
-                    MyPoint pointC =
-                        myObject?.Points[int.Parse(c[0], System.Globalization.CultureInfo.InvariantCulture)];
-                    pointC.Normal =
-                        myObject?.Normals[int.Parse(c[2], System.Globalization.CultureInfo.InvariantCulture)];
-
-                    var triangle = new MyTriangle(pointA, pointB, pointC);
-                    myObject?.Triangles.Add(triangle);
                 }
             }
-
-            myObjects.Add(myObject);
             return myObjects;
         }
     }
