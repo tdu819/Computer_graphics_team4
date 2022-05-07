@@ -1,5 +1,6 @@
 ﻿using project_true.Figures;
 using System;
+using System.Numerics;
 using project_true.Primitives;
 using project_true.Tracing;
 
@@ -9,12 +10,20 @@ namespace project_true
     {
         static void Main(string[] args)
         {
-            string path = "koenigsegg.obj";
-            
-            ObjHandler objHandler = new ObjHandler();
-            var result = objHandler.ReadObjFile(path);
+            var someMatrix = new Matrix4x4(
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1);
 
 
+            // obj handler lab 2 part 3.
+            // string path = "koenigsegg.obj";
+            //
+            // ObjHandler objHandler = new ObjHandler();
+            // var result = objHandler.ReadObjFile(path);
+
+            //
             Console.WriteLine("hi");
             // TracingHandler handler = new TracingHandler();
             // handler.FigureTracing();
