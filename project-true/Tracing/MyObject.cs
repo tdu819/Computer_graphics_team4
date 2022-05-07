@@ -7,7 +7,6 @@ namespace project_true.Tracing
     public class MyObject
     {
         public string Name { get; set; }
-        public string Path { get; set; }
         public List<MyTriangle> Triangles { get; set; } = new List<MyTriangle>();
 
         public MyObject(string name)

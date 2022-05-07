@@ -8,29 +8,41 @@ namespace project_true.Tracing
 {
     public class ObjHandler
     {
+        /// <summary>
+        /// Parse Obj file and returns list of objects with its list of triangles
+        /// </summary>
+        /// <param name="path"> Path to file for parsing </param>
         public List<MyObject> ReadObjFile(string path)
         {
+            // Object initialization
             MyObject myObject = null;
             List<MyObject> myObjects = new List<MyObject>();
+            // Number of f lines per object
             List<int> fLineCounter = new List<int>();
 
             using StreamReader file = new StreamReader(path);
             string line;
 
-            string[] array;
+            string[] splittedLine;
+
+            // Lists of points and normals, first element is null
             List<MyPoint> points = new List<MyPoint>() { null };
             List<MyVector> normals = new List<MyVector>() { null };
+
+            // List of splitted strings with indexes of points and normals
             List<List<string>> figures = new List<List<string>>();
 
+            // Counter for f string per object
             int figuresCount = 0;
 
             while ((line = file.ReadLine()) != null)
             {
+                // For comment lines
                 if (line[0] == '#') continue;
 
-                array = line.Split(' ');
+                splittedLine = line.Split(' ');
 
-                switch (array[0])
+                switch (splittedLine[0])
                 {
                     case "o":
                         {
@@ -39,7 +51,7 @@ namespace project_true.Tracing
                                 fLineCounter.Add(figuresCount);
                             }
 
-                            myObject = new MyObject(array[1]);
+                            myObject = new MyObject(splittedLine[1]);
                             myObjects.Add(myObject);
 
                             figuresCount = 0;
@@ -47,9 +59,10 @@ namespace project_true.Tracing
                         }
                     case "v":
                         {
-                            double x = double.Parse(array[1], System.Globalization.CultureInfo.InvariantCulture);
-                            double y = double.Parse(array[2], System.Globalization.CultureInfo.InvariantCulture);
-                            double z = double.Parse(array[3], System.Globalization.CultureInfo.InvariantCulture);
+                            double x = double.Parse(splittedLine[1], System.Globalization.CultureInfo.InvariantCulture);
+                            double y = double.Parse(splittedLine[2], System.Globalization.CultureInfo.InvariantCulture);
+                            double z = double.Parse(splittedLine[3], System.Globalization.CultureInfo.InvariantCulture);
+                            
                             if (myObject != null)
                             {
                                 points.Add(new MyPoint(x, y, z));
@@ -60,9 +73,9 @@ namespace project_true.Tracing
 
                     case "vn":
                         {
-                            double x = double.Parse(array[1], System.Globalization.CultureInfo.InvariantCulture);
-                            double y = double.Parse(array[2], System.Globalization.CultureInfo.InvariantCulture);
-                            double z = double.Parse(array[3], System.Globalization.CultureInfo.InvariantCulture);
+                            double x = double.Parse(splittedLine[1], System.Globalization.CultureInfo.InvariantCulture);
+                            double y = double.Parse(splittedLine[2], System.Globalization.CultureInfo.InvariantCulture);
+                            double z = double.Parse(splittedLine[3], System.Globalization.CultureInfo.InvariantCulture);
                             if (myObject != null)
                             {
                                 normals.Add(new MyVector(x, y, z).Normalization());
@@ -73,7 +86,7 @@ namespace project_true.Tracing
                         {
                             if (myObject != null)
                             {
-                                List<string> fString = array.Skip(1).ToList();
+                                List<string> fString = splittedLine.Skip(1).ToList();
                                 figures.Add(fString);
                                 figuresCount++;
                             }
