@@ -34,6 +34,11 @@ namespace project_true.Primitives
             this.Z = v3;
         }
 
+        public MyVector Move(float x, float y, float z)
+        {
+            return (MyVector)this.MemberwiseClone();
+        }
+
         public static double Dot(MyVector vector1, MyVector vector2)
         {
             return vector1.X * vector2.X +

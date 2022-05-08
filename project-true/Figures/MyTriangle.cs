@@ -31,6 +31,14 @@ namespace project_true.Figures
             Normal = normal;
         }
 
+        public MyTriangle Move(float x, float y, float z)
+        {
+            MyPoint a = A.Move(x, y, z);
+            MyPoint b = B.Move(x, y, z);
+            MyPoint c = C.Move(x, y, z);
+            return new MyTriangle(a, b, c);
+        }
+
         public override bool RayIntersect(MyPoint rayOrigin, 
                                           MyPoint rayPointer, 
                                           ref MyPoint IntersectionPoint)

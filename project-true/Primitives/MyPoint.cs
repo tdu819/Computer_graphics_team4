@@ -45,7 +45,14 @@ namespace project_true.Primitives
             Matrix4x4 translation = new Matrix4x4().CreateTranslationMatrix(x, y, z);
             Vector4 vector = new Vector4((float)this.X, (float)this.Y, (float)this.Z, 1f);
             Vector4 res = translation.MultiplyMatrix4x4ByVector(vector);
-            return new MyPoint(res.X / res.W, res.Y / res.W, res.Z / res.W);
+            MyVector normal = null;
+            if (Normal != null)
+            {
+                normal = Normal.Move(x, y, z);
+            }
+            MyPoint newPoint = new MyPoint(res.X / res.W, res.Y / res.W, res.Z / res.W);
+            newPoint.Normal = normal;
+            return newPoint;
         }
 
 

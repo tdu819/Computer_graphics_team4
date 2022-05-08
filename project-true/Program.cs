@@ -22,10 +22,7 @@ namespace project_true
             MyTriangle triangle = new MyTriangle(a, b, c);
 
             float x = 5, y = -5, z = 80;
-            MyPoint an = a.Move(x, y, z);
-            MyPoint bn = b.Move(x, y, z);
-            MyPoint cn = c.Move(x, y, z);
-            MyTriangle newTriangle = new MyTriangle(an, bn, cn);
+            MyTriangle newTriangle = triangle.Move(x, y, z);
 
             // obj handler lab 2 part 3.
             // string path = "koenigsegg.obj";
