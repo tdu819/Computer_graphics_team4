@@ -13,7 +13,7 @@ namespace project_true.Matrixes
         // нормалей,
         // трикутників.
 
-        public static Vector4 MultiplyAndMatrix4x4OnVector(this Matrix4x4 matrix, Vector4 vector)
+        public static Vector4 MultiplyMatrix4x4ByVector(this Matrix4x4 matrix, Vector4 vector)
         {
             Vector4 result = new Vector4();
 
@@ -35,7 +35,5 @@ namespace project_true.Matrixes
 
             return result;
         }
-        
-        
     }
 }

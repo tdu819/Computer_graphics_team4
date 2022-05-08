@@ -16,6 +16,16 @@ namespace project_true
                 0, 0, 1, 0,
                 0, 0, 0, 1);
 
+            MyPoint a = new MyPoint(15, 25, -50);
+            MyPoint b = new MyPoint(15, 25, 20);
+            MyPoint c = new MyPoint(15, -30, 20);
+            MyTriangle triangle = new MyTriangle(a, b, c);
+
+            float x = 5, y = -5, z = 80;
+            MyPoint an = a.Move(x, y, z);
+            MyPoint bn = b.Move(x, y, z);
+            MyPoint cn = c.Move(x, y, z);
+            MyTriangle newTriangle = new MyTriangle(an, bn, cn);
 
             // obj handler lab 2 part 3.
             // string path = "koenigsegg.obj";
