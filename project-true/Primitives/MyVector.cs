@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using project_true.Matrixes;
 
 namespace project_true.Primitives
 {
@@ -37,6 +38,38 @@ namespace project_true.Primitives
         public MyVector Move(float x, float y, float z)
         {
             return (MyVector)this.MemberwiseClone();
+        }
+
+        public MyVector Scale(float x, float y, float z)
+        {
+            Matrix4x4 scaleMatrix = new Matrix4x4().CreateScaleMatrix(x, y, z);
+
+            Vector4 vector = new Vector4((float)this.X, (float)this.Y, (float)this.Z, 1f);
+            Vector4 res = scaleMatrix.MultiplyMatrix4x4ByVector(vector);
+
+            MyVector result = new MyVector(res.X / res.W, res.Y / res.W, res.Z / res.W);
+
+            return result;
+        }
+
+        public MyVector Rotate(Matrix4x4 matrix)
+        {
+            Vector4 vector = new Vector4((float)this.X, (float)this.Y, (float)this.Z, 1f);
+            Vector4 res = matrix.MultiplyMatrix4x4ByVector(vector);
+
+            MyVector result = new MyVector(res.X / res.W, res.Y / res.W, res.Z / res.W);
+
+            return result;
+        }
+        
+        public MyVector ScaleRotateMove(Matrix4x4 matrix)
+        {
+            Vector4 vector = new Vector4((float)this.X, (float)this.Y, (float)this.Z, 1f);
+            Vector4 res = matrix.MultiplyMatrix4x4ByVector(vector);
+
+            MyVector result = new MyVector(res.X / res.W, res.Y / res.W, res.Z / res.W);
+
+            return result;
         }
 
         public static double Dot(MyVector vector1, MyVector vector2)

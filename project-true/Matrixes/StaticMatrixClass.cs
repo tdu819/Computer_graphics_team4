@@ -35,5 +35,16 @@ namespace project_true.Matrixes
 
             return result;
         }
+
+        public static Matrix4x4 CreateScaleMatrix(this Matrix4x4 matrix, float x, float y, float z)
+        {
+            Matrix4x4 result = new Matrix4x4(
+                x, 0, 0, 0,
+                0, y, 0, 0,
+                0, 0, z, 0,
+                0, 0, 0, 1);
+
+            return result;
+        }
     }
 }

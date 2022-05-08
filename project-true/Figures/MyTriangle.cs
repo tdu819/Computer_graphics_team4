@@ -1,5 +1,6 @@
 ﻿using project_true.Primitives;
 using System.Drawing;
+using System.Numerics;
 
 namespace project_true.Figures
 {
@@ -8,21 +9,20 @@ namespace project_true.Figures
         public MyPoint A { get; set; }
         public MyPoint B { get; set; }
         public MyPoint C { get; set; }
-        
+
         public MyVector Normal { get; set; }
 
         public MyTriangle()
         {
-            
         }
-        
+
         public MyTriangle(MyPoint a, MyPoint b, MyPoint c)
         {
             A = a;
             B = b;
             C = c;
         }
-        
+
         public MyTriangle(MyPoint a, MyPoint b, MyPoint c, MyVector normal)
         {
             A = a;
@@ -39,9 +39,33 @@ namespace project_true.Figures
             return new MyTriangle(a, b, c);
         }
 
-        public override bool RayIntersect(MyPoint rayOrigin, 
-                                          MyPoint rayPointer, 
-                                          ref MyPoint IntersectionPoint)
+        public MyTriangle Scale(float x, float y, float z)
+        {
+            MyPoint a = A.Scale(x, y, z);
+            MyPoint b = B.Scale(x, y, z);
+            MyPoint c = C.Scale(x, y, z);
+            return new MyTriangle(a, b, c);
+        }
+        
+        public MyTriangle Rotate(Matrix4x4 matrix)
+        {
+            MyPoint a = A.Rotate(matrix);
+            MyPoint b = B.Rotate(matrix);
+            MyPoint c = C.Rotate(matrix);
+            return new MyTriangle(a, b, c);
+        }
+        
+        public MyTriangle ScaleRotateMove(Matrix4x4 matrix)
+        {
+            MyPoint a = A.ScaleRotateMove(matrix);
+            MyPoint b = B.ScaleRotateMove(matrix);
+            MyPoint c = C.ScaleRotateMove(matrix);
+            return new MyTriangle(a, b, c);
+        }
+
+        public override bool RayIntersect(MyPoint rayOrigin,
+            MyPoint rayPointer,
+            ref MyPoint IntersectionPoint)
         {
             const double EPSILON = 0.0000001;
             MyPoint vertex0 = this.A;
@@ -50,11 +74,11 @@ namespace project_true.Figures
 
             MyVector rayVector = new MyVector(rayOrigin, rayPointer);
 
-            MyVector edge1 = new MyVector();
-            MyVector edge2 = new MyVector();
-            MyVector h = new MyVector();
-            MyVector s = new MyVector();
-            MyVector q = new MyVector();
+            MyVector edge1;
+            MyVector edge2;
+            MyVector h;
+            MyVector s;
+            MyVector q;
 
             double a, f, u, v;
 
@@ -103,16 +127,13 @@ namespace project_true.Figures
             MyVector sideB = new MyVector(C - A);
             return MyVector.Cross(sideA, sideB).Normalization();
         }
-        
 
-        
-        
+
         public override bool Equals(object? obj)
         {
             return this.A == ((MyTriangle)obj).A &&
                    this.B == ((MyTriangle)obj).B &&
                    this.C == ((MyTriangle)obj).C;
-
         }
 
         public override int GetHashCode()
