@@ -42,12 +42,7 @@ namespace project_true.Primitives
 
         public MyVector Scale(float x, float y, float z)
         {
-            Matrix4x4 scaleMatrix = new Matrix4x4().CreateScaleMatrix(x, y, z);
-
-            Vector4 vector = new Vector4((float)this.X, (float)this.Y, (float)this.Z, 1f);
-            Vector4 res = scaleMatrix.MultiplyMatrix4x4ByVector(vector);
-
-            MyVector result = new MyVector(res.X / res.W, res.Y / res.W, res.Z / res.W);
+            MyVector result = new MyVector(X * x, Y * y, Z * z);
 
             return result;
         }
