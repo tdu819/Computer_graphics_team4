@@ -3,6 +3,9 @@ using System;
 using System.Numerics;
 using project_true.Primitives;
 using project_true.Tracing;
+using project_true.MyScene;
+using project_true.Camera;
+using project_true.Matrixes;
 
 namespace project_true
 {
@@ -10,19 +13,26 @@ namespace project_true
     {
         static void Main(string[] args)
         {
-            var someMatrix = new Matrix4x4(
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1);
+            TracingHandler handler = new TracingHandler();
+            Matrix4x4 I = Matrix4x4.Identity;
 
-            MyPoint a = new MyPoint(15, 25, -50);
+            Matrix4x4 rotation = new Matrix4x4().CreateRotateMatrix(0, 180, 0);
+            Matrix4x4 translate = new Matrix4x4().CreateTranslationMatrix(30, 0, 0);
+            Matrix4x4 RT = Matrix4x4.Multiply(translate, rotation);
+
+            MyCamera camera = new MyCamera(new MyPoint(0, 0, 0), new MyVector(1, 0, 0), 10);
+            Scene scene = new Scene(camera);
+
+
+            MyPoint a = new MyPoint(15, 0, -50);
             MyPoint b = new MyPoint(15, 25, 20);
-            MyPoint c = new MyPoint(15, -30, 20);
-            MyTriangle triangle = new MyTriangle(a, b, c);
+            MyPoint c = new MyPoint(15, 0, 20);
+            MyTriangle triangle = new MyTriangle(a, b, c).ScaleRotateMove(RT);
 
-            float x = 5, y = -5, z = 80;
-            MyTriangle newTriangle = triangle.Move(x, y, z);
+            scene.AddFigure(triangle);
+
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(40, 40);
+            handler.DrawScene(scene, 40, 40, topLeft, null);
 
             // obj handler lab 2 part 3.
             // string path = "koenigsegg.obj";
@@ -31,7 +41,7 @@ namespace project_true
             // var result = objHandler.ReadObjFile(path);
 
             //
-            Console.WriteLine("hi");
+            //Console.WriteLine("hi");
             // TracingHandler handler = new TracingHandler();
             // handler.FigureTracing();
 
@@ -41,7 +51,7 @@ namespace project_true
 
             //handler.NearestFigureTracing();
 
-            // Console.ReadLine();
+            Console.ReadLine();
         }
     }
 }

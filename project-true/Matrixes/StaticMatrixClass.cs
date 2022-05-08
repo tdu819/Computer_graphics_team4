@@ -46,5 +46,52 @@ namespace project_true.Matrixes
 
             return result;
         }
+
+        public static Matrix4x4 CreateRotateMatrix(this Matrix4x4 matrix, double xa, double ya, double za)
+        {
+            double k = Math.PI / 180;
+            return CreateRotateMatrixRadians(matrix, xa * k, ya * k, za * k);
+        }
+
+        public static Matrix4x4 CreateRotateMatrixRadians(this Matrix4x4 matrix, double radx, double rady, double radz)
+        {
+            Matrix4x4 xMatrix = new Matrix4x4();
+            Matrix4x4 yMatrix = new Matrix4x4();
+            Matrix4x4 zMatrix = new Matrix4x4();
+
+            xMatrix = xMatrix.RotateAroundX(radx);
+            yMatrix = yMatrix.RotateAroundY(rady);
+            zMatrix = zMatrix.RotateAroundZ(radz);
+
+            return Matrix4x4.Multiply(Matrix4x4.Multiply(xMatrix, yMatrix), zMatrix);
+        }
+
+        public static Matrix4x4 RotateAroundX(this Matrix4x4 matrix, double radians)
+        {
+            matrix = Matrix4x4.Identity;
+            matrix.M22 = (float)Math.Cos(radians);
+            matrix.M23 = (float)Math.Sin(radians);
+            matrix.M32 = (float)-(Math.Sin(radians));
+            matrix.M33 = (float)Math.Cos(radians);
+            return matrix;
+        }
+        public static Matrix4x4 RotateAroundY(this Matrix4x4 matrix, double radians)
+        {
+            matrix = Matrix4x4.Identity;
+            matrix.M11 = (float)Math.Cos(radians);
+            matrix.M13 = (float)-(Math.Sin(radians));
+            matrix.M31 = (float)Math.Sin(radians);
+            matrix.M33 = (float)Math.Cos(radians);
+            return matrix;
+        }
+        public static Matrix4x4 RotateAroundZ(this Matrix4x4 matrix, double radians)
+        {
+            matrix = Matrix4x4.Identity;
+            matrix.M11 = (float)Math.Cos(radians);
+            matrix.M12 = (float)Math.Sin(radians);
+            matrix.M21 = (float)-(Math.Sin(radians));
+            matrix.M22 = (float)Math.Cos(radians);
+            return matrix;
+        }
     }
 }

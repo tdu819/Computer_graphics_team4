@@ -205,7 +205,7 @@ namespace project_true.Tracing
             }
         }
 
-        private void DrawScene(Scene scene, int height, int width, MyPoint topLeft, MyVector L)
+        public void DrawScene(Scene scene, int height, int width, MyPoint topLeft, MyVector L)
         {
             for (int i = 0; i < height; i++)
             {
