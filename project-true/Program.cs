@@ -13,27 +13,41 @@ namespace project_true
     {
         static void Main(string[] args)
         {
-            TracingHandler handler = new TracingHandler();
-            Matrix4x4 I = Matrix4x4.Identity;
+            TracingHandler tracingHandler = new TracingHandler();
+            tracingHandler.Shadows();
+            
+            // lab2 part4
+            // TracingHandler handler = new TracingHandler();
+            // Matrix4x4 I = Matrix4x4.Identity;
+            //
+            // Matrix4x4 rotation = new Matrix4x4().CreateRotateMatrix(0, 180, 0);
+            // Matrix4x4 translate = new Matrix4x4().CreateTranslationMatrix(30, 0, 0);
+            // Matrix4x4 scale = new Matrix4x4().CreateScaleMatrix(0.5f, 0.5f, 0.5f);
+            //
+            // Matrix4x4 RT = Matrix4x4.Multiply(translate, rotation); 
+            //
+            //
+            // Matrix4x4 SRT = Matrix4x4.Multiply(rotation, scale);
+            // SRT = Matrix4x4.Multiply(translate, SRT);
+            //
+            // MyCamera camera = new MyCamera(new MyPoint(0, 0, 0), new MyVector(1, 0, 0), 10);
+            // Scene scene = new Scene(camera);
+            //
+            //
+            // MyPoint a = new MyPoint(15, 0, -50);
+            // MyPoint b = new MyPoint(15, 25, 20);
+            // MyPoint c = new MyPoint(15, 0, 20);
+            // MyTriangle triangle = new MyTriangle(a, b, c).ScaleRotateMove(SRT);
+            //
+            // scene.AddFigure(triangle);
+            //
+            // MyPoint topLeft = camera.Plane.GetTopLeftPoint(40, 40);
+            // handler.DrawScene(scene, 40, 40, topLeft, null);
 
-            Matrix4x4 rotation = new Matrix4x4().CreateRotateMatrix(0, 180, 0);
-            Matrix4x4 translate = new Matrix4x4().CreateTranslationMatrix(30, 0, 0);
-            Matrix4x4 RT = Matrix4x4.Multiply(translate, rotation);
-
-            MyCamera camera = new MyCamera(new MyPoint(0, 0, 0), new MyVector(1, 0, 0), 10);
-            Scene scene = new Scene(camera);
-
-
-            MyPoint a = new MyPoint(15, 0, -50);
-            MyPoint b = new MyPoint(15, 25, 20);
-            MyPoint c = new MyPoint(15, 0, 20);
-            MyTriangle triangle = new MyTriangle(a, b, c).ScaleRotateMove(RT);
-
-            scene.AddFigure(triangle);
-
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(40, 40);
-            handler.DrawScene(scene, 40, 40, topLeft, null);
-
+            
+            //
+            
+            
             // obj handler lab 2 part 3.
             // string path = "koenigsegg.obj";
             //
@@ -51,7 +65,7 @@ namespace project_true
 
             //handler.NearestFigureTracing();
 
-            Console.ReadLine();
+            // Console.ReadLine();
         }
     }
 }

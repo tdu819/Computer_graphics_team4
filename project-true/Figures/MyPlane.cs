@@ -19,7 +19,6 @@ namespace project_true.Figures
         }
 
 
-        // todo check it. vector normal of the plate. expereimental feature.
         public MyPoint GetTopLeftPoint(double height, double width)
         {
             return new MyPoint()

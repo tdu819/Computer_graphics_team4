@@ -3,16 +3,17 @@ using project_true.Primitives;
 using project_true.MyScene;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using project_true.Camera;
 using System.IO;
 using System.Numerics;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace project_true.Tracing
 {
     public class TracingHandler
     {
-        // TODO Intersection point is not necessary?
         /// <summary>
         /// Part 4.5 Implementation
         /// </summary>
@@ -314,6 +315,124 @@ namespace project_true.Tracing
                         file.WriteLine($"{defaultColor.X} {defaultColor.Y} {defaultColor.Z}");
                     }
                 }
+            }
+        }
+
+        public void Shadows()
+        {
+            // Camera
+            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
+            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
+            int distance = 10;
+
+            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
+
+            // Scene
+            Scene scene = new Scene(camera);
+
+            //Sphere
+            double r = 9;
+            MyPoint sphereCenter = new MyPoint() { X = 20, Y = 0, Z = 0 };
+
+            Figure myFigure = new MySphere() { Center = sphereCenter, Radius = r };
+
+            //Triangle
+            MyPoint a = new MyPoint(29, -10, 0);
+            MyPoint b = new MyPoint(11, -10, 0);
+            MyPoint c = new MyPoint(29, -10, 30);
+
+            Figure myFigure1 = new MyTriangle(a, b, c);
+
+            // Add Sphere
+            scene.AddFigure(myFigure);
+            scene.AddFigure(myFigure1);
+
+            // Our Canvas size
+            int height = 20, width = 20;
+            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
+
+            // Light Vector
+            MyVector L = new MyVector(0, 1, 0);
+            // MyVector L = null;
+
+            //DrawFigure(myFigure, scene, height, width, topLeft, L);
+
+            // DrawScene(scene, height, width, topLeft, L);
+            DrawSceneWithShadows(scene, height, width, topLeft, L);
+
+            Console.WriteLine();
+        }
+
+        public void DrawSceneWithShadows(Scene scene, int height, int width, MyPoint topLeft, MyVector L)
+        {
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
+
+                    double minDistance = Double.MaxValue;
+                    Figure nearestFigure = null;
+                    MyPoint IntersectionPoint = new MyPoint();
+
+                    foreach (Figure f in scene.Figures)
+                    {
+                        MyPoint Intersection = new MyPoint();
+                        if (f.RayIntersect(scene.Camera.Center, rayPointer, ref Intersection))
+                        {
+                            double dist = MyVector.Length(new MyVector(scene.Camera.Center, IntersectionPoint));
+                            if (dist < minDistance)
+                            {
+                                minDistance = dist;
+                                nearestFigure = f;
+                                IntersectionPoint = new MyPoint(Intersection);
+                            }
+                        }
+                    }
+
+
+                    // Point and Camera most likely not working correctly
+                    if (nearestFigure != null)
+                    {
+                        if (L != null)
+                        {
+                            bool flag = false;
+
+                            MyVector vector = L * (-1);
+
+
+                            foreach (Figure f in scene.Figures)
+                            {
+                                MyPoint Intersection = new MyPoint();
+                                if (f.RayIntersect(IntersectionPoint, IntersectionPoint + vector, ref Intersection))
+                                {
+                                    flag = true;
+                                    Console.Write("B");
+
+                                    break;
+                                }
+                            }
+
+                            if (!flag)
+                            {
+                                double lighting = Lighting(nearestFigure, IntersectionPoint, L);
+
+
+                                DrawLighting(lighting);
+                            }
+                        }
+                        else
+                        {
+                            Console.Write("#");
+                        }
+                    }
+                    else
+                    {
+                        Console.Write(" ");
+                    }
+                }
+
+                Console.WriteLine("|");
             }
         }
     }
