@@ -13,6 +13,7 @@ namespace project_true.Matrixes
         // нормалей,
         // трикутників.
 
+        // lab2 part4
         public static Vector4 MultiplyMatrix4x4ByVector(this Matrix4x4 matrix, Vector4 vector)
         {
             Vector4 result = new Vector4();

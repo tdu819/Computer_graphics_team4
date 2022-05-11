@@ -13,6 +13,7 @@ namespace project_true
     {
         static void Main(string[] args)
         {
+            // lab2 part5
             TracingHandler tracingHandler = new TracingHandler();
             tracingHandler.Shadows();
             

@@ -470,14 +470,13 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
 
             // act
 
-            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+            Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert
 
@@ -517,14 +516,13 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MySphere() { Center = sphereCenter2, Radius = r2 };
 
             // act
 
-            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+            Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert
 
@@ -566,14 +564,13 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MyTriangle(a, b, c);
 
             // act
 
-            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+            Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert
 
@@ -615,17 +612,14 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
 
             // act
-
-            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+            Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert
-
             Assert.AreEqual(expected, actual);
         }
 
@@ -664,14 +658,13 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             // var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
 
             // act
 
-            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+            Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert
 

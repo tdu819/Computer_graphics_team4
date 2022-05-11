@@ -14,12 +14,47 @@ namespace project_true.Tracing
 {
     public class TracingHandler
     {
-        /// <summary>
-        /// Part 4.5 Implementation
-        /// </summary>
-        /// <param name="figure"></param>
-        /// <param name="intersection"></param>
-        /// <param name="L"></param>
+        public Scene CreateTestingScene()
+        {
+            // Camera
+            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
+            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
+            int distance = 10;
+
+            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
+
+            // Scene
+            Scene scene = new Scene(camera);
+
+
+            return scene;
+        }
+
+        public (MyPoint, Figure) FindNearestIntersectionPoint(Scene scene, MyPoint rayPointer)
+        {
+            double minDistance = Double.MaxValue;
+            Figure nearestFigure = null;
+            MyPoint IntersectionPoint = null;
+
+            foreach (Figure f in scene.Figures)
+            {
+                MyPoint Intersection = new MyPoint();
+                if (f.RayIntersect(scene.Camera.Center, rayPointer, ref Intersection))
+                {
+                    double dist = MyVector.Length(new MyVector(scene.Camera.Center, IntersectionPoint));
+                    if (dist < minDistance)
+                    {
+                        minDistance = dist;
+                        nearestFigure = f;
+                        IntersectionPoint = new MyPoint(Intersection);
+                    }
+                }
+            }
+
+            return (IntersectionPoint, nearestFigure);
+        }
+
+
         private static double Lighting(Figure figure, MyPoint intersection, MyVector L)
         {
             string result = "";
@@ -52,67 +87,50 @@ namespace project_true.Tracing
             }
         }
 
+
         /// <summary>
-        /// Lab 1 Part 4 Implementation
-        /// lab 2 part 1
+        ///  lab 2 part 1
         /// </summary>
         public void FigureTracing()
         {
-            // Camera
-            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
-            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
-            int distance = 10;
+            var scene = CreateTestingScene();
 
-            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
-
-            // Scene
-            Scene scene = new Scene(camera);
-
-            //Sphere
+            // Sphere
             double r = 9;
-            MyPoint sphereCenter = new MyPoint() { X = 10, Y = 0, Z = 10 };
+            MyPoint sphereCenter = new MyPoint() { X = 20, Y = 0, Z = 0 };
 
-            Figure myFigure = new MySphere() { Center = sphereCenter, Radius = r };
+            Figure myFigureSphere = new MySphere() { Center = sphereCenter, Radius = r };
 
             //Triangle
             MyPoint a = new MyPoint(15, 25, -50);
             MyPoint b = new MyPoint(15, 25, 20);
             MyPoint c = new MyPoint(15, -30, 20);
 
-            Figure myFigure1 = new MyTriangle(a, b, c);
+            Figure myFigureTriangle = new MyTriangle(a, b, c);
 
-            // Add Sphere
-            scene.AddFigure(myFigure);
-            scene.AddFigure(myFigure1);
+
+            scene.AddFigure(myFigureSphere);
+            scene.AddFigure(myFigureTriangle);
+
 
             // Our Canvas size
             int height = 200, width = 200;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
+
 
             // Light Vector
             MyVector L = new MyVector(1, 0, 0);
             // MyVector L = null;
 
-            //DrawFigure(myFigure, scene, height, width, topLeft, L);
-
-            //DrawScene(scene, height, width, topLeft, L);
-            WriteToPPM(scene, height, width, topLeft, L);
+            // draw to console
+            DrawScene(scene, height, width, L);
+            WriteToPPM(scene, height, width, L);
 
             Console.WriteLine();
         }
 
-        // lab1,  part5. 
         public void NearestFigureTracing()
         {
-            // Camera
-            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
-            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
-            int distance = 5;
-
-            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
-
-            // Scene
-            Scene scene = new Scene(camera);
+            Scene scene = CreateTestingScene();
 
             //Sphere1
             double r1 = 9;
@@ -132,18 +150,18 @@ namespace project_true.Tracing
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // Light Vector
-            Figure nearest = FindNearestFigure(scene, height, width, topLeft);
+            Figure nearest = FindNearestFigure(scene, height, width);
 
-            DrawFigure(nearest, scene, height, width, topLeft, null);
+            DrawFigure(nearest, scene, height, width, null);
 
             Console.WriteLine();
         }
 
-        public Figure FindNearestFigure(Scene scene, int height, int width, MyPoint topLeft)
+        public Figure FindNearestFigure(Scene scene, int height, int width)
         {
+            MyPoint topLeft = scene.Camera.Plane.GetTopLeftPoint(height, width);
             double minDistance = Double.MaxValue;
             Figure nearestFigure = null;
 
@@ -173,8 +191,10 @@ namespace project_true.Tracing
             return nearestFigure;
         }
 
-        private void DrawFigure(Figure figure, Scene scene, int height, int width, MyPoint topLeft, MyVector L)
+        private void DrawFigure(Figure figure, Scene scene, int height, int width, MyVector L)
         {
+            MyPoint topLeft = scene.Camera.Plane.GetTopLeftPoint(height, width);
+
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
@@ -206,32 +226,17 @@ namespace project_true.Tracing
             }
         }
 
-        public void DrawScene(Scene scene, int height, int width, MyPoint topLeft, MyVector L)
+        public void DrawScene(Scene scene, int height, int width, MyVector L)
         {
+            MyPoint topLeft = scene.Camera.Plane.GetTopLeftPoint(height, width);
+
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
                     MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
 
-                    double minDistance = Double.MaxValue;
-                    Figure nearestFigure = null;
-                    MyPoint IntersectionPoint = new MyPoint();
-
-                    foreach (Figure f in scene.Figures)
-                    {
-                        MyPoint Intersection = new MyPoint();
-                        if (f.RayIntersect(scene.Camera.Center, rayPointer, ref Intersection))
-                        {
-                            double dist = MyVector.Length(new MyVector(scene.Camera.Center, IntersectionPoint));
-                            if (dist < minDistance)
-                            {
-                                minDistance = dist;
-                                nearestFigure = f;
-                                IntersectionPoint = new MyPoint(Intersection);
-                            }
-                        }
-                    }
+                    (MyPoint IntersectionPoint, Figure nearestFigure) = FindNearestIntersectionPoint(scene, rayPointer);
 
                     // Point and Camera most likely not working correctly
                     if (nearestFigure != null)
@@ -256,10 +261,16 @@ namespace project_true.Tracing
             }
         }
 
-        private void WriteToPPM(Scene scene, int height, int width, MyPoint topLeft, MyVector L)
+        // lab2 part1
+        private void WriteToPPM(Scene scene, int height, int width, MyVector L)
         {
+            MyPoint topLeft = scene.Camera.Plane.GetTopLeftPoint(height, width);
+
             using StreamWriter file = new StreamWriter("car.ppm");
+            
+            // P3           # "P3" means this is a RGB color image in ASCII
             file.WriteLine("P3");
+            
             file.WriteLine($"{width} {height}");
             // TODO Create variable for max value of each color
             file.WriteLine("255");
@@ -275,24 +286,7 @@ namespace project_true.Tracing
                 {
                     MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
 
-                    double minDistance = Double.MaxValue;
-                    Figure nearestFigure = null;
-                    MyPoint IntersectionPoint = new MyPoint();
-
-                    foreach (Figure f in scene.Figures)
-                    {
-                        MyPoint Intersection = new MyPoint();
-                        if (f.RayIntersect(scene.Camera.Center, rayPointer, ref Intersection))
-                        {
-                            double dist = MyVector.Length(new MyVector(scene.Camera.Center, IntersectionPoint));
-                            if (dist < minDistance)
-                            {
-                                minDistance = dist;
-                                nearestFigure = f;
-                                IntersectionPoint = new MyPoint(Intersection);
-                            }
-                        }
-                    }
+                    (MyPoint IntersectionPoint, Figure nearestFigure) = FindNearestIntersectionPoint(scene, rayPointer);
 
                     // Point and Camera most likely not working correctly
                     if (nearestFigure != null)
@@ -318,17 +312,10 @@ namespace project_true.Tracing
             }
         }
 
+        // lab2 part5
         public void Shadows()
         {
-            // Camera
-            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
-            MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
-            int distance = 10;
-
-            MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
-
-            // Scene
-            Scene scene = new Scene(camera);
+            Scene scene = CreateTestingScene();
 
             //Sphere
             double r = 9;
@@ -349,49 +336,30 @@ namespace project_true.Tracing
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
+            MyPoint topLeft = scene.Camera.Plane.GetTopLeftPoint(height, width);
 
             // Light Vector
             MyVector L = new MyVector(0, 1, 0);
             // MyVector L = null;
 
-            //DrawFigure(myFigure, scene, height, width, topLeft, L);
-
-            // DrawScene(scene, height, width, topLeft, L);
-            DrawSceneWithShadows(scene, height, width, topLeft, L);
+            DrawSceneWithShadows(scene, height, width, L);
 
             Console.WriteLine();
         }
 
-        public void DrawSceneWithShadows(Scene scene, int height, int width, MyPoint topLeft, MyVector L)
+
+        public void DrawSceneWithShadows(Scene scene, int height, int width, MyVector L)
         {
+            MyPoint topLeft = scene.Camera.Plane.GetTopLeftPoint(height, width);
+
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
                     MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
 
-                    double minDistance = Double.MaxValue;
-                    Figure nearestFigure = null;
-                    MyPoint IntersectionPoint = new MyPoint();
+                    (var IntersectionPoint, var nearestFigure) = FindNearestIntersectionPoint(scene, rayPointer);
 
-                    foreach (Figure f in scene.Figures)
-                    {
-                        MyPoint Intersection = new MyPoint();
-                        if (f.RayIntersect(scene.Camera.Center, rayPointer, ref Intersection))
-                        {
-                            double dist = MyVector.Length(new MyVector(scene.Camera.Center, IntersectionPoint));
-                            if (dist < minDistance)
-                            {
-                                minDistance = dist;
-                                nearestFigure = f;
-                                IntersectionPoint = new MyPoint(Intersection);
-                            }
-                        }
-                    }
-
-
-                    // Point and Camera most likely not working correctly
                     if (nearestFigure != null)
                     {
                         if (L != null)
@@ -399,7 +367,6 @@ namespace project_true.Tracing
                             bool flag = false;
 
                             MyVector vector = L * (-1);
-
 
                             foreach (Figure f in scene.Figures)
                             {
