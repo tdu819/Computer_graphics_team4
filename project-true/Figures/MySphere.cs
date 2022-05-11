@@ -15,6 +15,7 @@ namespace project_true.Figures
             return normal;
         }
 
+        // lab 1 part 3
         public override bool RayIntersect(MyPoint rayOrigin, 
                                           MyPoint rayPointer, 
                                           ref MyPoint IntersectionPoint)

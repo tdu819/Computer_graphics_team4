@@ -69,7 +69,7 @@ namespace project_true.Tracing
             MyPoint b = new MyPoint(5, 5, -2);
             MyPoint c = new MyPoint(6, 0, 8);
 
-            //Figure myFigure = new MyTriangle(a, b, c);
+            // Figure myFigure2 = new MyTriangle(a, b, c);
 
             // Add Sphere
             scene.AddFigure(myFigure);
@@ -82,7 +82,13 @@ namespace project_true.Tracing
             //MyVector L = new MyVector(0, 1, 0);
             MyVector L = null;
 
-            DrawFigure(myFigure, scene, height, width, topLeft, L);
+            
+            
+            foreach (var f in scene.Figures)
+            {
+                DrawFigure(f, scene, height, width, topLeft, L);
+            }
+            
 
             Console.WriteLine();
         }
@@ -128,6 +134,8 @@ namespace project_true.Tracing
             Console.WriteLine();
         }
 
+        
+        // lab1 part5. using inside NearestFigureTracing
         public Figure FindNearestFigure(Scene scene, int height, int width, MyPoint topLeft)
         {
             double minDistance = Double.MaxValue;

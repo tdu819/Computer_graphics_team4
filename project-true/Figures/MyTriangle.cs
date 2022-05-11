@@ -21,6 +21,7 @@ namespace project_true.Figures
             C = c;
         }
 
+        // lab1 part3
         public override bool RayIntersect(MyPoint rayOrigin, 
                                           MyPoint rayPointer, 
                                           ref MyPoint IntersectionPoint)
