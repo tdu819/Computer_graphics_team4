@@ -123,7 +123,7 @@ namespace project_true.Tracing
 
             // draw to console
             DrawScene(scene, height, width, L);
-            WriteToPPM(scene, height, width, L);
+            WriteToPPM(scene, height, width, L, 255);
 
             Console.WriteLine();
         }
@@ -262,20 +262,20 @@ namespace project_true.Tracing
         }
 
         // lab2 part1
-        private void WriteToPPM(Scene scene, int height, int width, MyVector L)
+        private void WriteToPPM(Scene scene, int height, int width, MyVector L, int maxColor)
         {
             MyPoint topLeft = scene.Camera.Plane.GetTopLeftPoint(height, width);
 
             using StreamWriter file = new StreamWriter("car.ppm");
             
-            // P3           # "P3" means this is a RGB color image in ASCII
+            //  "P3" means this is a RGB color image in ASCII
             file.WriteLine("P3");
             
             file.WriteLine($"{width} {height}");
             // TODO Create variable for max value of each color
-            file.WriteLine("255");
+            file.WriteLine(maxColor);
 
-            Vector3 rgb = new Vector3(255, 255, 255);
+            Vector3 rgb = new Vector3(maxColor, maxColor, maxColor);
 
             Vector3 defaultColor = new Vector3(0, 0, 0);
 
