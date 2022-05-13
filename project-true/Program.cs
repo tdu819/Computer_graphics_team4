@@ -1,11 +1,14 @@
 ﻿using project_true.Figures;
 using System;
+using System.IO;
 using System.Numerics;
 using project_true.Primitives;
 using project_true.Tracing;
 using project_true.MyScene;
 using project_true.Camera;
 using project_true.Matrixes;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace project_true
 {
@@ -13,10 +16,54 @@ namespace project_true
     {
         static void Main(string[] args)
         {
-            // lab2 part5
+            string sourceFile = null;
+            string outputFile = null;
+
+            foreach (string a in args)
+            {
+                if(a.StartsWith("--source=") && sourceFile == null)
+                {
+                    sourceFile = a.Substring(9);
+                }
+                if(a.StartsWith("--output=") && outputFile == null)
+                {
+                    outputFile = a.Substring(9);
+                }
+            }
+
+            if (!File.Exists(sourceFile))
+            {
+                Console.WriteLine("There is no such file");
+                Console.ReadLine();
+                return;
+            }
+
+            Matrix4x4 rotation = new Matrix4x4().CreateRotateMatrix(0, 90, 0);
+            Matrix4x4 translate = new Matrix4x4().CreateTranslationMatrix(0, 0, 0);
+            Matrix4x4 scale = new Matrix4x4().CreateScaleMatrix(1, 1, 2f);
+
+            Matrix4x4 RT = Matrix4x4.Multiply(translate, rotation);
+
+
+            Matrix4x4 SRT = Matrix4x4.Multiply(rotation, scale);
+            SRT = Matrix4x4.Multiply(scale, rotation);
+
+            ObjHandler objHandler = new ObjHandler();
             TracingHandler tracingHandler = new TracingHandler();
-            tracingHandler.Shadows();
-            
+            List<MyObject> objects = objHandler.ReadObjFile(sourceFile);
+            Scene scene = tracingHandler.CreateTestingScene();
+            foreach (MyObject obj in objects)
+            {
+                scene.Figures.AddRange(obj.Triangles.Select(t => t.ScaleRotateMove(SRT)));
+            }
+                        
+
+            tracingHandler.DrawScene(scene, 100, 100, new MyVector(0, 1, 0));
+
+            // lab2 part5
+            /*TracingHandler tracingHandler = new TracingHandler();
+            tracingHandler.Shadows();*/
+
             // lab2 part4
             // TracingHandler handler = new TracingHandler();
             // Matrix4x4 I = Matrix4x4.Identity;
@@ -45,11 +92,10 @@ namespace project_true
             // MyPoint topLeft = camera.Plane.GetTopLeftPoint(40, 40);
             // handler.DrawScene(scene, 40, 40, topLeft, null);
 
-            
-            //
-            
-            
-            // obj handler lab 2 part 3.
+
+            // 
+
+            // lab 2 part 3. (obj handler)
             // string path = "koenigsegg.obj";
             //
             // ObjHandler objHandler = new ObjHandler();

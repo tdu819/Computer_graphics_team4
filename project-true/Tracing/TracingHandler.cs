@@ -17,9 +17,9 @@ namespace project_true.Tracing
         public Scene CreateTestingScene()
         {
             // Camera
-            MyPoint cameraCenter = new MyPoint() { X = 0, Y = 0, Z = 0 };
+            MyPoint cameraCenter = new MyPoint() { X = -10, Y = 0, Z = 0 };
             MyVector cameraVector = new MyVector() { X = 1, Y = 0, Z = 0 };
-            int distance = 10;
+            int distance = 50;
 
             MyCamera camera = new MyCamera(cameraCenter, cameraVector, distance);
 

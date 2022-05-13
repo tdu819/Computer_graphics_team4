@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "project-true": {
+      "commandName": "Project",
+      "commandLineArgs": "--source=cow-nonormals.obj --output=koenigsegg.ppm"
+    }
+  }
+}

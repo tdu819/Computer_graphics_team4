@@ -125,13 +125,23 @@ namespace project_true.Tracing
                                 string[] v3 = fLine[p3].Split('/');
 
                                 MyPoint a = points[int.Parse(v1[0])];
-                                a.Normal = normals[int.Parse(v1[2])];
+                                if (v1.Length >= 3)
+                                {
+                                    a.Normal = normals[int.Parse(v1[2])];
+                                }
 
                                 MyPoint b = points[int.Parse(v2[0])];
-                                b.Normal = normals[int.Parse(v2[2])];
-
+                                if (v2.Length >= 3)
+                                {
+                                    b.Normal = normals[int.Parse(v2[2])];
+                                }
+                                
                                 MyPoint c = points[int.Parse(v3[0])];
-                                c.Normal = normals[int.Parse(v3[2])];
+                                if (v3.Length >= 3)
+                                {
+                                    c.Normal = normals[int.Parse(v3[2])];
+                                }
+                                
 
                                 MyTriangle triangle = new MyTriangle(a, b, c);
                                 obj.Triangles.Add(triangle);
