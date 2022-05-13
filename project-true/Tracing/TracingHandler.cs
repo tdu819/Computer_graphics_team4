@@ -41,7 +41,7 @@ namespace project_true.Tracing
                 MyPoint Intersection = new MyPoint();
                 if (f.RayIntersect(scene.Camera.Center, rayPointer, ref Intersection))
                 {
-                    double dist = MyVector.Length(new MyVector(scene.Camera.Center, IntersectionPoint));
+                    double dist = MyVector.Length(new MyVector(scene.Camera.Center, Intersection));
                     if (dist < minDistance)
                     {
                         minDistance = dist;
@@ -114,7 +114,7 @@ namespace project_true.Tracing
 
 
             // Our Canvas size
-            int height = 200, width = 200;
+            int height = 20, width = 20;
 
 
             // Light Vector
@@ -204,21 +204,19 @@ namespace project_true.Tracing
                     // ref IntersectionPoint
                     MyPoint IntersectionPoint = new MyPoint();
 
-                    // Point and Camera most likely not working correctly
-                    if (figure.RayIntersect(scene.Camera.Center, rayPointer, ref IntersectionPoint))
+                    if (!figure.RayIntersect(scene.Camera.Center, rayPointer, ref IntersectionPoint))
                     {
-                        if (L != null)
-                        {
-                            Lighting(figure, IntersectionPoint, L);
-                        }
-                        else
-                        {
-                            Console.Write("#");
-                        }
+                        Console.Write(" ");
+                        continue;
+                    }
+
+                    if (L != null)
+                    {
+                        Lighting(figure, IntersectionPoint, L);
                     }
                     else
                     {
-                        Console.Write(" ");
+                        Console.Write("#");
                     }
                 }
 
@@ -238,22 +236,20 @@ namespace project_true.Tracing
 
                     (MyPoint IntersectionPoint, Figure nearestFigure) = FindNearestIntersectionPoint(scene, rayPointer);
 
-                    // Point and Camera most likely not working correctly
-                    if (nearestFigure != null)
+                    if (nearestFigure == null)
                     {
-                        if (L != null)
-                        {
-                            double lighting = Lighting(nearestFigure, IntersectionPoint, L);
-                            DrawLighting(lighting);
-                        }
-                        else
-                        {
-                            Console.Write("#");
-                        }
+                        Console.Write(" ");
+                        continue;
+                    }
+
+                    if (L == null)
+                    {
+                        Console.Write("#");
                     }
                     else
                     {
-                        Console.Write(" ");
+                        double lighting = Lighting(nearestFigure, IntersectionPoint, L);
+                        DrawLighting(lighting);
                     }
                 }
 
@@ -288,26 +284,24 @@ namespace project_true.Tracing
 
                     (MyPoint IntersectionPoint, Figure nearestFigure) = FindNearestIntersectionPoint(scene, rayPointer);
 
-                    // Point and Camera most likely not working correctly
-                    if (nearestFigure != null)
+                    if (nearestFigure == null)
                     {
-                        Vector3 pixel;
-                        if (L != null)
-                        {
-                            double lighting = Lighting(nearestFigure, IntersectionPoint, L);
-                            pixel = Vector3.Multiply((float)lighting, rgb);
-                        }
-                        else
-                        {
-                            pixel = Vector3.Multiply(1f, rgb);
-                        }
+                        file.WriteLine($"{defaultColor.X} {defaultColor.Y} {defaultColor.Z}");
+                        continue;
+                    }
 
-                        file.WriteLine($"{pixel.X} {pixel.Y} {pixel.Z}");
+                    Vector3 pixel;
+                    if (L != null)
+                    {
+                        double lighting = Lighting(nearestFigure, IntersectionPoint, L);
+                        pixel = Vector3.Multiply((float)lighting, rgb);
                     }
                     else
                     {
-                        file.WriteLine($"{defaultColor.X} {defaultColor.Y} {defaultColor.Z}");
+                        pixel = Vector3.Multiply(1f, rgb);
                     }
+
+                    file.WriteLine($"{pixel.X} {pixel.Y} {pixel.Z}");
                 }
             }
         }
@@ -360,42 +354,38 @@ namespace project_true.Tracing
 
                     (var IntersectionPoint, var nearestFigure) = FindNearestIntersectionPoint(scene, rayPointer);
 
-                    if (nearestFigure != null)
-                    {
-                        if (L != null)
-                        {
-                            bool flag = false;
-
-                            MyVector vector = L * (-1);
-
-                            foreach (Figure f in scene.Figures)
-                            {
-                                MyPoint Intersection = new MyPoint();
-                                if (f.RayIntersect(IntersectionPoint, IntersectionPoint + vector, ref Intersection))
-                                {
-                                    flag = true;
-                                    Console.Write("B");
-
-                                    break;
-                                }
-                            }
-
-                            if (!flag)
-                            {
-                                double lighting = Lighting(nearestFigure, IntersectionPoint, L);
-
-
-                                DrawLighting(lighting);
-                            }
-                        }
-                        else
-                        {
-                            Console.Write("#");
-                        }
-                    }
-                    else
+                    if (nearestFigure == null)
                     {
                         Console.Write(" ");
+                        continue;
+                    }
+
+                    if (L == null)
+                    {
+                        Console.Write("#");
+                        continue;
+                    }
+
+                    bool flag = false;
+
+                    MyVector vector = L * (-1);
+
+                    foreach (Figure f in scene.Figures)
+                    {
+                        MyPoint Intersection = new MyPoint();
+                        if (f.RayIntersect(IntersectionPoint, IntersectionPoint + vector, ref Intersection))
+                        {
+                            flag = true;
+                            Console.Write("B");
+
+                            break;
+                        }
+                    }
+
+                    if (!flag)
+                    {
+                        double lighting = Lighting(nearestFigure, IntersectionPoint, L);
+                        DrawLighting(lighting);
                     }
                 }
 
