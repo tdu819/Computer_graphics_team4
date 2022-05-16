@@ -45,12 +45,15 @@ namespace project_true
             Matrix4x4 RT = Matrix4x4.Multiply(translate, rotation);
 
 
-            Matrix4x4 SRT = Matrix4x4.Multiply(rotation, scale);
-            SRT = Matrix4x4.Multiply(scale, rotation);
+            // Matrix4x4 SRT = Matrix4x4.Multiply(rotation, scale);
+            Matrix4x4 SRT = Matrix4x4.Multiply(scale, rotation);
+            SRT = Matrix4x4.Multiply(translate, SRT ); 
+            
 
             ObjHandler objHandler = new ObjHandler();
             TracingHandler tracingHandler = new TracingHandler();
             List<MyObject> objects = objHandler.ReadObjFile(sourceFile);
+            
             Scene scene = tracingHandler.CreateTestingScene();
             foreach (MyObject obj in objects)
             {
@@ -58,9 +61,11 @@ namespace project_true
             }
                         
 
-            tracingHandler.DrawScene(scene, 100, 100, new MyVector(0, 1, 0));
+            // tracingHandler.DrawScene(scene, 45, 100, new MyVector(0, 1, 0));
+            
+            tracingHandler.WriteToPPM(scene, 45, 100, new MyVector(0, -1, 0), 255, outputFile);
 
-            // lab2 part5
+            //   lab2 part5
             /*TracingHandler tracingHandler = new TracingHandler();
             tracingHandler.Shadows();*/
 
