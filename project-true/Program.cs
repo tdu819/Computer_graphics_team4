@@ -66,7 +66,7 @@ namespace project_true
             tracingHandler.WriteToPPM(scene, 45, 100, new MyVector(0, -1, 0), 255, outputFile);
              
 
-            //   lab2 part5
+            //  hack lab2 part5
             /*TracingHandler tracingHandler = new TracingHandler();
             tracingHandler.Shadows();*/
 

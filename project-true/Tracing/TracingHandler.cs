@@ -268,7 +268,6 @@ namespace project_true.Tracing
             file.WriteLine("P3");
             
             file.WriteLine($"{width} {height}");
-            // TODO Create variable for max value of each color
             file.WriteLine(maxColor);
 
             Vector3 rgb = new Vector3(maxColor, maxColor, maxColor);

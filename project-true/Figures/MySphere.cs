@@ -67,7 +67,6 @@ namespace project_true.Figures
             {
                 return false;
             }
-            // TODO Question: t == 0? + one t == 0 and other t > 0?
             else if (t2 <= 0)
             {
                 IntersectionPoint = new MyPoint(d * t1);
