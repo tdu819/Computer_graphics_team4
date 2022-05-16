@@ -64,6 +64,7 @@ namespace project_true
             // tracingHandler.DrawScene(scene, 45, 100, new MyVector(0, 1, 0));
             
             tracingHandler.WriteToPPM(scene, 45, 100, new MyVector(0, -1, 0), 255, outputFile);
+             
 
             //   lab2 part5
             /*TracingHandler tracingHandler = new TracingHandler();
