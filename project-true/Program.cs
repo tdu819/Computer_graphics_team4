@@ -18,6 +18,7 @@ namespace project_true
         [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: project_true.Primitives.MyVector")]
         static void Main(string[] args)
         {
+            // lab2 part 0
             string sourceFile = null;
             string outputFile = null;
 
@@ -63,14 +64,14 @@ namespace project_true
             }
                         
 
-            // tracingHandler.DrawScene(scene, 45, 100, new MyVector(0, 1, 0));
+            tracingHandler.DrawSceneWithShadows(scene, 45, 100, new MyVector(0, 1, 0));
             
             tracingHandler.WriteToPPM(scene, 45, 100, new MyVector(0, 1, 0), 255, outputFile);
              
 
             //  hack lab2 part5
-            /*TracingHandler tracingHandler = new TracingHandler();
-            tracingHandler.Shadows();*/
+            // TracingHandler tracingHandler = new TracingHandler();
+            // tracingHandler.Shadows();
 
             // lab2 part4
             // TracingHandler handler = new TracingHandler();
