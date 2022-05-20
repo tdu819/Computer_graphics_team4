@@ -89,39 +89,6 @@ namespace project_true.Tests
         }
     }
 
-    // [TestFixture]
-    // public class MyPointTests
-    // {
-    //     [SetUp]
-    //     public void Setup()
-    //     {
-    //     }
-    //
-    //     [Test]
-    //     public void Test1()
-    //     {
-    //         Assert.Fail();
-    //     }
-    // }
-    //
-    //
-    // [TestFixture]
-    // public class ProgramTests
-    // {
-    //     [SetUp]
-    //     public void Setup()
-    //     {
-    //     }
-    //
-    //     [Test]
-    //     public void Test1()
-    //     {
-    //         Assert.Fail();
-    //     }
-    // }
-    //
-    //
-
 
     [TestFixture]
     public class MySphereTests

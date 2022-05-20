@@ -12,7 +12,7 @@ namespace project_true.Tracing
     {
         // TODO Intersection point is not necessary?
         /// <summary>
-        /// Part 4.5 Implementation
+        /// lab1 Part 4.5 Implementation. Lighting.
         /// </summary>
         /// <param name="figure"></param>
         /// <param name="intersection"></param>
@@ -44,7 +44,7 @@ namespace project_true.Tracing
         }
 
         /// <summary>
-        /// Part 4 Implementation
+        /// lab1 Part 4.0 Implementation
         /// </summary>
         public void FigureTracing()
         {
@@ -79,8 +79,9 @@ namespace project_true.Tracing
             MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // Light Vector
-            //MyVector L = new MyVector(0, 1, 0);
-            MyVector L = null;
+            
+            MyVector L = new MyVector(0, 1, 0);
+            // MyVector L = null;
 
             
             

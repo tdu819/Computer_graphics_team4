@@ -12,6 +12,8 @@ namespace project_true.Figures
         public abstract bool RayIntersect(MyPoint rayOrigin,
                                           MyPoint rayPointer,
                                           ref MyPoint IntersectionPoint);
+        
+       
         public abstract MyVector GetNormal(MyPoint intersectionPoint);
 
 
