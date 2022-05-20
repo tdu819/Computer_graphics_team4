@@ -8,12 +8,14 @@ using project_true.MyScene;
 using project_true.Camera;
 using project_true.Matrixes;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace project_true
 {
     public static class Program
     {
+        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: project_true.Primitives.MyVector")]
         static void Main(string[] args)
         {
             string sourceFile = null;
@@ -63,7 +65,7 @@ namespace project_true
 
             // tracingHandler.DrawScene(scene, 45, 100, new MyVector(0, 1, 0));
             
-            tracingHandler.WriteToPPM(scene, 45, 100, new MyVector(0, -1, 0), 255, outputFile);
+            tracingHandler.WriteToPPM(scene, 45, 100, new MyVector(0, 1, 0), 255, outputFile);
              
 
             //  hack lab2 part5
