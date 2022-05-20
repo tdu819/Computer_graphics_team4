@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project-true", "project-tru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project-true.Tests", "project-true.Tests\project-true.Tests.csproj", "{2B529E30-F468-4122-89FF-6554A88D5035}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project-true.Tests", "project-true.Tests\project-true.Tests.csproj", "{2B529E30-F468-4122-89FF-6554A88D5035}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

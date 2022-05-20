@@ -47,6 +47,7 @@ namespace project_true.Tests
     }
 
     [TestFixture]
+
     public class MyVectorTests
     {
         [SetUp]
@@ -521,7 +522,7 @@ namespace project_true.Tests
             var expected = new MySphere() { Center = sphereCenter2, Radius = r2 };
 
             // act
-
+          
             Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert
@@ -569,7 +570,7 @@ namespace project_true.Tests
             var expected = new MyTriangle(a, b, c);
 
             // act
-
+          
             Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert

@@ -95,8 +95,6 @@ namespace project_true.Primitives
             return newPoint;
         }
 
-
-
         public override int GetHashCode()
         {
             return base.GetHashCode();

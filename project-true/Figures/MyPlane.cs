@@ -18,7 +18,6 @@ namespace project_true.Figures
             _normal = vector;
         }
 
-
         public MyPoint GetTopLeftPoint(double height, double width)
         {
             return new MyPoint()
