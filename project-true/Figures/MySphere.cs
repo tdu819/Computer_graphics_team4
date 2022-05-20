@@ -11,7 +11,7 @@ namespace project_true.Figures
 
         public override MyVector GetNormal(MyPoint intersectionPoint)
         {
-            MyVector normal = new MyVector(intersectionPoint, Center).Normalization();
+            MyVector normal = new MyVector(Center, intersectionPoint).Normalization();
             return normal;
         }
 
