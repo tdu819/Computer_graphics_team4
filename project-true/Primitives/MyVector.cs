@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using project_true.Matrixes;
 
 namespace project_true.Primitives
 {
@@ -32,6 +33,38 @@ namespace project_true.Primitives
             this.X = v1;
             this.Y = v2;
             this.Z = v3;
+        }
+
+        public MyVector Move(float x, float y, float z)
+        {
+            return (MyVector)this.MemberwiseClone();
+        }
+
+        public MyVector Scale(float x, float y, float z)
+        {
+            MyVector result = new MyVector(X * x, Y * y, Z * z);
+
+            return result;
+        }
+
+        public MyVector Rotate(Matrix4x4 matrix)
+        {
+            Vector4 vector = new Vector4((float)this.X, (float)this.Y, (float)this.Z, 1f);
+            Vector4 res = matrix.MultiplyMatrix4x4ByVector(vector);
+
+            MyVector result = new MyVector(res.X / res.W, res.Y / res.W, res.Z / res.W);
+
+            return result;
+        }
+        
+        public MyVector ScaleRotateMove(Matrix4x4 matrix)
+        {
+            Vector4 vector = new Vector4((float)this.X, (float)this.Y, (float)this.Z, 1f);
+            Vector4 res = matrix.MultiplyMatrix4x4ByVector(vector);
+
+            MyVector result = new MyVector(res.X / res.W, res.Y / res.W, res.Z / res.W);
+
+            return result;
         }
 
         public static double Dot(MyVector vector1, MyVector vector2)

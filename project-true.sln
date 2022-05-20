@@ -1,6 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project-true", "project-true\project-true.csproj", "{A8666169-94CD-473B-8227-7846120C957C}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project-true", "project-true\project-true.csproj", "{A8666169-94CD-473B-8227-7846120C957C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project-true.Tests", "project-true.Tests\project-true.Tests.csproj", "{2B529E30-F468-4122-89FF-6554A88D5035}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project-true.Tests", "project-true.Tests\project-true.Tests.csproj", "{2B529E30-F468-4122-89FF-6554A88D5035}"
 EndProject
@@ -18,5 +23,11 @@ Global
 		{2B529E30-F468-4122-89FF-6554A88D5035}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B529E30-F468-4122-89FF-6554A88D5035}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B529E30-F468-4122-89FF-6554A88D5035}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5759A9B8-9867-4EC9-9077-1194A7A3922B}
 	EndGlobalSection
 EndGlobal

@@ -11,7 +11,7 @@ namespace project_true.Figures
 
         public override MyVector GetNormal(MyPoint intersectionPoint)
         {
-            MyVector normal = new MyVector(intersectionPoint, Center).Normalization();
+            MyVector normal = new MyVector(Center, intersectionPoint).Normalization();
             return normal;
         }
 
@@ -33,7 +33,7 @@ namespace project_true.Figures
 
             var a = d2;
             var b = 2 * MyVector.Dot(d, k);
-            var cc = k2 - r2;
+            var cc = Math.Round(k2 - r2, 6);
 
             double t1, t2;
 
@@ -63,11 +63,11 @@ namespace project_true.Figures
                 }
             }
 
-            if (t1 < 0 && t2 < 0)
+            if (t1 <= 0 && t2 <= 0)
             {
                 return false;
             }
-            else if (t2 < 0)
+            else if (t2 <= 0)
             {
                 IntersectionPoint = new MyPoint(d * t1);
                 return true;

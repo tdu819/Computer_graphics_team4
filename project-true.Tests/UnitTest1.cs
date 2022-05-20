@@ -9,6 +9,45 @@ using project_true.Tracing;
 namespace project_true.Tests
 {
     [TestFixture]
+    public class ShadowTests
+    {
+        [Test]
+        public void Dot_vector1_1_1_And_vector1_2_3_Result_6()
+        {   //Sphere
+            double r = 9;
+            MyPoint sphereCenter = new MyPoint() { X = 20, Y = 0, Z = 0 };
+
+            Figure myFigure = new MySphere() { Center = sphereCenter, Radius = r };
+
+            //Triangle
+            MyPoint a = new MyPoint(29, -10, 0);
+            MyPoint b = new MyPoint(11, -10, 0);
+            MyPoint c = new MyPoint(29, -10, 30);
+
+            Figure myFigure1 = new MyTriangle(a, b, c);
+
+            // Light Vector
+            MyVector L = new MyVector(0, 1, 0);
+
+            Figure nearestFigure = myFigure;
+            MyPoint IntersectionPoint = null;
+            myFigure.RayIntersect(new MyPoint(0, 0, 0), new MyPoint(11, 0, 1), ref IntersectionPoint);
+
+            MyPoint rayPointer = (L * (-1)) + IntersectionPoint;
+
+            MyPoint actualIntersection = new MyPoint();
+
+            // act
+            bool actual = nearestFigure.RayIntersect(IntersectionPoint, rayPointer, ref actualIntersection);
+
+
+            // assert
+            Assert.IsFalse(actual);
+        }
+    }
+
+    [TestFixture]
+
     public class MyVectorTests
     {
         [SetUp]
@@ -432,14 +471,13 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
 
             // act
 
-            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+            Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert
 
@@ -479,14 +517,13 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MySphere() { Center = sphereCenter2, Radius = r2 };
 
             // act
-
-            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+          
+            Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert
 
@@ -528,14 +565,13 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MyTriangle(a, b, c);
 
             // act
-
-            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+          
+            Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert
 
@@ -577,17 +613,14 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
 
             // act
-
-            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+            Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert
-
             Assert.AreEqual(expected, actual);
         }
 
@@ -626,14 +659,13 @@ namespace project_true.Tests
 
             // Our Canvas size
             int height = 20, width = 20;
-            MyPoint topLeft = camera.Plane.GetTopLeftPoint(height, width);
 
             // expected
             // var expected = new MySphere() { Center = sphereCenter1, Radius = r1 };
 
             // act
 
-            Figure actual = handler.FindNearestFigure(scene, height, width, topLeft);
+            Figure actual = handler.FindNearestFigure(scene, height, width);
 
             // assert
 
