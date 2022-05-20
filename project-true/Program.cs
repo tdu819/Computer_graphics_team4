@@ -62,12 +62,14 @@ namespace project_true
             {
                 scene.Figures.AddRange(obj.Triangles.Select(t => t.ScaleRotateMove(SRT)));
             }
-                        
 
-            tracingHandler.DrawSceneWithShadows(scene, 45, 100, new MyVector(0, 1, 0));
+            MyVector L = new MyVector(0, 1, 0);
+            int height = 300,
+                width = 300;
+
+            //tracingHandler.DrawSceneWithShadows(scene, 45, 100, L);
             
-            tracingHandler.WriteToPPM(scene, 45, 100, new MyVector(0, 1, 0), 255, outputFile);
-             
+            tracingHandler.WriteToPPM(scene, height, width, L, 255, outputFile);
 
             //  hack lab2 part5
             // TracingHandler tracingHandler = new TracingHandler();

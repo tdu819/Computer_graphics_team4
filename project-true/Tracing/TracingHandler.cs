@@ -302,44 +302,10 @@ namespace project_true.Tracing
 
                     file.WriteLine($"{pixel.X} {pixel.Y} {pixel.Z}");
                 }
+                Console.Clear();
+                Console.WriteLine($"{i + 1}/{height} lines");
             }
         }
-
-        // lab2 part5
-        public void Shadows()
-        {
-            Scene scene = CreateTestingScene();
-
-            //Sphere
-            double r = 9;
-            MyPoint sphereCenter = new MyPoint() { X = 20, Y = 0, Z = 0 };
-
-            Figure myFigure = new MySphere() { Center = sphereCenter, Radius = r };
-
-            //Triangle
-            MyPoint a = new MyPoint(29, -10, 0);
-            MyPoint b = new MyPoint(11, -10, 0);
-            MyPoint c = new MyPoint(29, -10, 30);
-
-            Figure myFigure1 = new MyTriangle(a, b, c);
-
-            // Add Sphere
-            scene.AddFigure(myFigure);
-            scene.AddFigure(myFigure1);
-
-            // Our Canvas size
-            int height = 20, width = 20;
-            MyPoint topLeft = scene.Camera.Plane.GetTopLeftPoint(height, width);
-
-            // Light Vector
-            MyVector L = new MyVector(0, 1, 0);
-            // MyVector L = null;
-
-            DrawSceneWithShadows(scene, height, width, L);
-
-            Console.WriteLine();
-        }
-
 
         public void DrawSceneWithShadows(Scene scene, int height, int width, MyVector L)
         {
@@ -367,23 +333,31 @@ namespace project_true.Tracing
 
                     bool flag = false;
 
-                    MyVector vector = L * (-1);
+                    
 
                     foreach (Figure f in scene.Figures)
                     {
                         MyPoint Intersection = new MyPoint();
-                        if (f.RayIntersect(IntersectionPoint, IntersectionPoint + vector, ref Intersection))
+                        if (f.RayIntersect(IntersectionPoint, IntersectionPoint + L, ref Intersection))
                         {
                             flag = true;
-                            Console.Write("B");
 
                             break;
                         }
                     }
 
-                    if (!flag)
+                    double lighting = Lighting(nearestFigure, IntersectionPoint, L);
+                    if (lighting < 0)
                     {
-                        double lighting = Lighting(nearestFigure, IntersectionPoint, L);
+                        Console.Write(" ");
+
+                    }
+                    else if (flag)
+                    {
+                        Console.Write("B");
+                    }
+                    else 
+                    { 
                         DrawLighting(lighting);
                     }
                 }
