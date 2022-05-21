@@ -30,7 +30,9 @@ namespace project_true.Tracing
             return scene;
         }
 
-        public (MyPoint, Figure) FindNearestIntersectionPoint(Scene scene, MyPoint rayPointer)
+        public (MyPoint, Figure) FindNearestIntersectionPoint(Scene scene, 
+                                                              MyPoint origin, 
+                                                              MyPoint rayPointer)
         {
             double minDistance = Double.MaxValue;
             Figure nearestFigure = null;
@@ -39,9 +41,9 @@ namespace project_true.Tracing
             foreach (Figure f in scene.Figures)
             {
                 MyPoint Intersection = new MyPoint();
-                if (f.RayIntersect(scene.Camera.Center, rayPointer, ref Intersection))
+                if (f.RayIntersect(origin, rayPointer, ref Intersection))
                 {
-                    double dist = MyVector.Length(new MyVector(scene.Camera.Center, Intersection));
+                    double dist = MyVector.Length(new MyVector(origin, Intersection));
                     if (dist < minDistance)
                     {
                         minDistance = dist;
@@ -57,7 +59,6 @@ namespace project_true.Tracing
 
         private static double Lighting(Figure figure, MyPoint intersection, MyVector L)
         {
-            string result = "";
             MyVector normal = figure.GetNormal(intersection);
             double dot = MyVector.Dot(normal, L);
             return dot;
@@ -65,11 +66,11 @@ namespace project_true.Tracing
 
         private void DrawLighting(double lighting)
         {
-            if (lighting < 0)
+            if (lighting <= 0)
             {
                 Console.Write(" ");
             }
-            else if (lighting >= 0 && lighting < 0.2)
+            else if (lighting > 0 && lighting < 0.2)
             {
                 Console.Write(".");
             }
@@ -85,78 +86,6 @@ namespace project_true.Tracing
             {
                 Console.Write("#");
             }
-        }
-
-
-        /// <summary>
-        ///  lab 2 part 1
-        /// </summary>
-        public void FigureTracing()
-        {
-            var scene = CreateTestingScene();
-
-            // Sphere
-            double r = 9;
-            MyPoint sphereCenter = new MyPoint() { X = 20, Y = 0, Z = 0 };
-
-            Figure myFigureSphere = new MySphere() { Center = sphereCenter, Radius = r };
-
-            //Triangle
-            MyPoint a = new MyPoint(15, 25, -50);
-            MyPoint b = new MyPoint(15, 25, 20);
-            MyPoint c = new MyPoint(15, -30, 20);
-
-            Figure myFigureTriangle = new MyTriangle(a, b, c);
-
-
-            scene.AddFigure(myFigureSphere);
-            scene.AddFigure(myFigureTriangle);
-
-
-            // Our Canvas size
-            int height = 20, width = 20;
-
-
-            // Light Vector
-            MyVector L = new MyVector(1, 0, 0);
-            // MyVector L = null;
-
-            // draw to console
-            DrawScene(scene, height, width, L);
-            WriteToPPM(scene, height, width, L, 255, "car.ppm");
-
-            Console.WriteLine();
-        }
-
-        public void NearestFigureTracing()
-        {
-            Scene scene = CreateTestingScene();
-
-            //Sphere1
-            double r1 = 9;
-            MyPoint sphereCenter1 = new MyPoint() { X = 10, Y = 0, Z = -5 };
-
-            Figure mySphere1 = new MySphere() { Center = sphereCenter1, Radius = r1 };
-
-            //Sphere2
-            double r2 = 8;
-            MyPoint sphereCenter2 = new MyPoint() { X = 10, Y = 0, Z = 5 };
-
-            Figure mySphere2 = new MySphere() { Center = sphereCenter2, Radius = r2 };
-
-            // Add Sphere
-            scene.AddFigure(mySphere1);
-            scene.AddFigure(mySphere2);
-
-            // Our Canvas size
-            int height = 20, width = 20;
-
-            // Light Vector
-            Figure nearest = FindNearestFigure(scene, height, width);
-
-            DrawFigure(nearest, scene, height, width, null);
-
-            Console.WriteLine();
         }
 
         public Figure FindNearestFigure(Scene scene, int height, int width)
@@ -224,146 +153,104 @@ namespace project_true.Tracing
             }
         }
 
-        public void DrawScene(Scene scene, int height, int width, MyVector L)
-        {
-            MyPoint topLeft = scene.Camera.Plane.GetTopLeftPoint(height, width);
-
-            for (int i = 0; i < height; i++)
-            {
-                for (int j = 0; j < width; j++)
-                {
-                    MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
-
-                    (MyPoint IntersectionPoint, Figure nearestFigure) = FindNearestIntersectionPoint(scene, rayPointer);
-
-                    if (nearestFigure == null)
-                    {
-                        Console.Write(" ");
-                        continue;
-                    }
-
-                    if (L == null)
-                    {
-                        Console.Write("#");
-                    }
-                    else
-                    {
-                        double lighting = Lighting(nearestFigure, IntersectionPoint, L);
-                        DrawLighting(lighting);
-                    }
-                }
-
-                Console.WriteLine("|");
-            }
-        }
-
         // lab2 part1
-        public void WriteToPPM(Scene scene, int height, int width, MyVector L, int maxColor, string outPutFile)
+        public void WriteToPPM(ScreenState screenState, int maxColor, string outPutFile)
         {
-            MyPoint topLeft = scene.Camera.Plane.GetTopLeftPoint(height, width);
 
             using StreamWriter file = new StreamWriter(outPutFile);
             
             //  "P3" means this is a RGB color image in ASCII
             file.WriteLine("P3");
             
-            file.WriteLine($"{width} {height}");
+            file.WriteLine($"{screenState.Width} {screenState.Height}");
             file.WriteLine(maxColor);
 
             Vector3 rgb = new Vector3(maxColor, maxColor, maxColor);
 
-            Vector3 defaultColor = new Vector3(0, 0, 0);
-
-
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < screenState.Height; i++)
             {
-                for (int j = 0; j < width; j++)
-                {
-                    MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
-
-                    (MyPoint IntersectionPoint, Figure nearestFigure) = FindNearestIntersectionPoint(scene, rayPointer);
-
-                    if (nearestFigure == null)
-                    {
-                        file.WriteLine($"{defaultColor.X} {defaultColor.Y} {defaultColor.Z}");
-                        continue;
-                    }
-
+                for (int j = 0; j < screenState.Width; j++)
+                {                    
                     Vector3 pixel;
-                    if (L != null)
-                    {
-                        double lighting = Lighting(nearestFigure, IntersectionPoint, L);
-                        pixel = Vector3.Multiply((float)lighting, rgb);
-                    }
-                    else
-                    {
-                        pixel = Vector3.Multiply(1f, rgb);
-                    }
+                    pixel = Vector3.Multiply((float)screenState[i, j], rgb);
 
                     file.WriteLine($"{pixel.X} {pixel.Y} {pixel.Z}");
                 }
-                Console.Clear();
-                Console.WriteLine($"{i + 1}/{height} lines");
+                Console.SetCursorPosition(0, Math.Max(Console.CursorTop - 1, 0));
+                ClearCurrentConsoleLine();
+                Console.WriteLine($"{i + 1}/{screenState.Height} lines");
             }
         }
 
-        public void DrawSceneWithShadows(Scene scene, int height, int width, MyVector L)
+        public void DrawScene(ScreenState screenState)
         {
+            for (int i = 0; i < screenState.Height; i++)
+            {
+                for (int j = 0; j < screenState.Width; j++)
+                {
+                    DrawLighting(screenState[i, j]);
+                }
+                Console.WriteLine("|");
+            }
+        }
+
+        public ScreenState Tracing(Scene scene, int height, int width, MyVector L = null)
+        {
+            ScreenState screenState = new ScreenState(height, width);
             MyPoint topLeft = scene.Camera.Plane.GetTopLeftPoint(height, width);
+
+            MyPoint rayPointer = new MyPoint();
 
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    MyPoint rayPointer = new MyPoint() { X = topLeft.X + 0, Y = topLeft.Y - i, Z = topLeft.Z + j };
+                    rayPointer.X = topLeft.X + 0;
+                    rayPointer.Y = topLeft.Y - i;
+                    rayPointer.Z = topLeft.Z + j;
 
-                    (var IntersectionPoint, var nearestFigure) = FindNearestIntersectionPoint(scene, rayPointer);
+                    (var IntersectionPoint, var nearestFigure) =
+                        FindNearestIntersectionPoint(scene, scene.Camera.Center, rayPointer);
 
                     if (nearestFigure == null)
                     {
-                        Console.Write(" ");
+                        screenState[i, j] = 0;
                         continue;
                     }
 
                     if (L == null)
                     {
-                        Console.Write("#");
+                        screenState[i, j] = 1;
                         continue;
                     }
 
-                    bool flag = false;
-
-                    
+                    double lighting = Lighting(nearestFigure, IntersectionPoint, L);
 
                     foreach (Figure f in scene.Figures)
                     {
                         MyPoint Intersection = new MyPoint();
                         if (f.RayIntersect(IntersectionPoint, IntersectionPoint + L, ref Intersection))
                         {
-                            flag = true;
-
+                            lighting = 0;
                             break;
                         }
                     }
 
-                    double lighting = Lighting(nearestFigure, IntersectionPoint, L);
-                    if (lighting < 0)
-                    {
-                        Console.Write(" ");
-
-                    }
-                    else if (flag)
-                    {
-                        Console.Write("B");
-                    }
-                    else 
-                    { 
-                        DrawLighting(lighting);
-                    }
+                    screenState[i, j] = lighting;
                 }
-
-                Console.WriteLine("|");
+                Console.SetCursorPosition(0, Math.Max(Console.CursorTop - 1, 0));
+                ClearCurrentConsoleLine();
+                Console.WriteLine($"{i + 1}/{height} lines");
             }
+            return screenState;
+        }
+
+        public static void ClearCurrentConsoleLine()
+        {
+            int currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, currentLineCursor);
         }
     }
 }

@@ -41,9 +41,9 @@ namespace project_true
                 return;
             }
 
-            Matrix4x4 rotation = new Matrix4x4().CreateRotateMatrix(0, 90, 0);
+            Matrix4x4 rotation = new Matrix4x4().CreateRotateMatrix(20, 90, 0);
             Matrix4x4 translate = new Matrix4x4().CreateTranslationMatrix(0, 0, 0);
-            Matrix4x4 scale = new Matrix4x4().CreateScaleMatrix(1, 1, 2f);
+            Matrix4x4 scale = new Matrix4x4().CreateScaleMatrix(1, 1, 1);
 
             Matrix4x4 RT = Matrix4x4.Multiply(translate, rotation);
 
@@ -64,12 +64,14 @@ namespace project_true
             }
 
             MyVector L = new MyVector(0, 1, 0);
-            int height = 300,
-                width = 300;
+            int height = 45,
+                width = 100;
 
-            //tracingHandler.DrawSceneWithShadows(scene, 45, 100, L);
+            ScreenState screenState = tracingHandler.Tracing(scene, height, width, L);
+
+            tracingHandler.DrawScene(screenState);
             
-            tracingHandler.WriteToPPM(scene, height, width, L, 255, outputFile);
+            tracingHandler.WriteToPPM(screenState, 255, outputFile);
 
             //  hack lab2 part5
             // TracingHandler tracingHandler = new TracingHandler();

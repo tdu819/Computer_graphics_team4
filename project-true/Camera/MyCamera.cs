@@ -28,6 +28,7 @@ namespace project_true.Camera
             Center = center;
             Direction = vector;
             Distance = distance;
+            
             CreateCameraPlane();
         }
 

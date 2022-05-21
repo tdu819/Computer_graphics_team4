@@ -24,8 +24,8 @@ namespace project_true.Figures
             return new MyPoint()
             {
                 X = _center.X,
-                Y = _center.Y + ((height / 2 - 0.5)),
-                Z = _center.Z - ((width / 2 - 0.5))
+                Y = _center.Y + (height / 2 - 0.5),
+                Z = _center.Z - (width / 2 - 0.5)
             };
         }
 
